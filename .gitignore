@@ -19,3 +19,10 @@
 /config/.DS_Store
 
 /Gemfile.lock
+/dump_postgres
+/public/packs
+/public/packs-test
+/node_modules
+/yarn-error.log
+yarn-debug.log*
+.yarn-integrity

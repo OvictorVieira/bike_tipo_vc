@@ -26,6 +26,7 @@ RUN set -ex \
 		ruby \
 	' \
 	&& apt-get update \
+	&& apt-get install --assume-yes vim \
 	&& apt-get install -y --no-install-recommends $buildDeps \
 	&& rm -rf /var/lib/apt/lists/* \
 	\
@@ -68,8 +69,12 @@ RUN addgroup -gid 1000 docker && adduser docker -gid 1000 --uid 1000 --disabled-
 RUN sh -c "echo 'docker ALL=NOPASSWD: ALL' >> /etc/sudoers"
 
 RUN curl -sL https://deb.nodesource.com/setup_8.x | bash -
+RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
 RUN apt-get install -y nodejs
+RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
+RUN apt-get update && apt-get install yarn
 RUN gem install rails
+RUN yarn --version
 
 # install things globally, for great justice
 # and don't create ".bundle" in all our apps
