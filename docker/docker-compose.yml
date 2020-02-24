@@ -1,0 +1,50 @@
+version: '3'
+
+services:
+  postgres:
+    image: postgres
+    container_name: postgres_db
+    environment:
+      POSTGRES_USER: biker
+      POSTGRES_PASSWORD: BikeTipoVc2020!
+    ports:
+      - 15432:5432
+    volumes:
+      - ../dump_postgres:/var/www/html/bike_tipo_vc/dump
+    networks:
+      - database-network
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: biker@bike_tipo_vc.com
+      PGADMIN_DEFAULT_PASSWORD: BikeTipoVc2020!
+    ports:
+      - 16543:80
+    depends_on:
+      - postgres
+    networks:
+      - database-network
+
+  web:
+    tty: true
+    stdin_open: true
+    build: ./
+    container_name: bike_tipo_vc
+    environment:
+      RAILS_MASTER_KEY: 8304bdfef7d8a18f370ae1e8808be678
+    privileged: true
+    volumes:
+      - ../:/var/www/html/bike_tipo_vc
+    ports:
+      - 3000:3000
+      - 80:80
+    depends_on:
+      - postgres
+    networks:
+      - database-network
+
+networks:
+  database-network:
+    driver: bridge
