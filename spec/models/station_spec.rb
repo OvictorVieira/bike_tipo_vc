@@ -3,9 +3,7 @@ require 'rails_helper'
 RSpec.describe Station, type: :model do
   context 'validations tests' do
     let(:station) do
-      create(:station, name: 'Estação São Paulo',
-                       latitude: -22.2232155,
-                       longitude: -49.9879748)
+      create(:station)
     end
 
     it "is valid with valid attributes" do

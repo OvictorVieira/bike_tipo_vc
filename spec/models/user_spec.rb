@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe User, type: :model do
   context 'validations tests' do
-    let(:user) { create(:user, name: 'Victor') }
+    let(:user) { create(:user) }
 
     it "is valid without email" do
       expect(user).to be_valid

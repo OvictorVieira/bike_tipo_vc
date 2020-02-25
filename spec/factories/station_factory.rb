@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :station do
-    name {}
-    latitude {}
-    longitude {}
+    name { 'Estação São Paulo' }
+    latitude { -22.2232155 }
+    longitude { -49.9879748 }
   end
 end
