@@ -1,4 +1,4 @@
-require_relative '../config/simplecov_config'
+require_relative '../config/spec/support/simplecov_config'
 
 RSpec.configure do |config|
   config.expect_with :rspec do |expectations|
