@@ -3,6 +3,8 @@ class CreateBikes < ActiveRecord::Migration[6.0]
     create_table :bikes do |t|
       t.string :code
 
+      t.index :code, unique: true
+
       t.timestamps
     end
   end

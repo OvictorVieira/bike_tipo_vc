@@ -11,5 +11,8 @@ class CreateTrips < ActiveRecord::Migration[6.0]
 
       t.timestamps
     end
+
+    add_foreign_key :trips, :stations, column: :origin_station
+    add_foreign_key :trips, :stations, column: :destination_station
   end
 end

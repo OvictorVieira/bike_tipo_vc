@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_25_005602) do
+ActiveRecord::Schema.define(version: 2020_02_25_003325) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -19,12 +19,14 @@ ActiveRecord::Schema.define(version: 2020_02_25_005602) do
     t.string "code"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["code"], name: "index_bikes_on_code", unique: true
   end
 
   create_table "stations", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["name"], name: "index_stations_on_name"
   end
 
   create_table "trips", force: :cascade do |t|
@@ -46,8 +48,11 @@ ActiveRecord::Schema.define(version: 2020_02_25_005602) do
     t.string "email"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["email"], name: "index_users_on_email", unique: true
   end
 
   add_foreign_key "trips", "bikes"
+  add_foreign_key "trips", "stations", column: "destination_station"
+  add_foreign_key "trips", "stations", column: "origin_station"
   add_foreign_key "trips", "users"
 end

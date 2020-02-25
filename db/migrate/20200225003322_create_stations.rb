@@ -3,6 +3,8 @@ class CreateStations < ActiveRecord::Migration[6.0]
     create_table :stations do |t|
       t.string :name
 
+      t.index :name
+
       t.timestamps
     end
   end
