@@ -126,6 +126,11 @@ Para a tabela **trips** foram adicionado as seguinte colunas:
  - *traveled_distance*: Distância percorrida
  - *origin_station*: Estação de Origem
  - *destination_station*: Estação de Destino
+ - *latitude*: Latitude da localização da Estação
+ - *longitude*: Longitude da localização da Estação
+ 
+Foi adicionado os campos *latitude* e *longitude* na tabela **stations** para que possamos realizar
+os calculos de distância das viagens dinamicamente através da [Fórmula de Haversine](https://pt.wikipedia.org/wiki/F%C3%B3rmula_de_Haversine).
  
 # Escolha do Framework e versão da Linguagem
 
@@ -136,6 +141,14 @@ release final.
 Já a linguagem foi escolhido o Ruby na versão *2.6.0* por já possuir conhecimento na mesma
 e também já possuir um container do docker preparado com a mesma, facilitando no desenvolvimento
 do projeto.
+
+# Escolha do Banco de Dados
+
+Para o projeto foi escolhido o banco de dados PostgreSQL por ser mais robusto e ter mais
+ferramentas a disposição e por trabalhar melhor com grande volume de dados, visto que nossa
+aplicação pode crescer muito futuramente e ser disponibilizada no Brasil e fora.
+
+Artigo lido que auxiliou na escolha do banco de dados entre PostgreSQL ou Mysql: [www.xplenty.com/postgresql-vs-mysql](https://www.xplenty.com/blog/postgresql-vs-mysql-which-one-is-better-for-your-use-case/)
 
 # Arquitetura do Código
 
