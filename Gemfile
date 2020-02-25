@@ -17,6 +17,7 @@ group :development, :test do
   gem 'pry-rails', '~> 0.3.9'
   gem 'rspec-rails'
   gem "rubycritic", require: false
+  gem 'factory_bot_rails'
 end
 
 group :development do
