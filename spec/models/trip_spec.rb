@@ -40,10 +40,10 @@ RSpec.describe Trip, type: :model do
       expect(trip).to_not be_valid
     end
 
-    it "is not valid without a finished_at" do
+    it "is valid without a finished_at" do
       trip.finished_at = nil
 
-      expect(trip).to_not be_valid
+      expect(trip).to be_valid
     end
 
     it "is not valid without a origin_station" do
@@ -58,10 +58,10 @@ RSpec.describe Trip, type: :model do
       expect(trip).to_not be_valid
     end
 
-    it "is not valid without a traveled_distance" do
+    it "is valid without a traveled_distance" do
       trip.traveled_distance = nil
 
-      expect(trip).to_not be_valid
+      expect(trip).to be_valid
     end
   end
 end
