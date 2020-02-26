@@ -65,16 +65,13 @@ RSpec.describe "Trips", type: :request do
       expect(response).to be_successful
       expect(response.content_type).to eql('application/json; charset=utf-8')
 
-      expect(response_body['id']).to eql trip.id
-
-      # expect(response_body['started_at']).to eql date_to_y_m_d_h_m_s(trip.started_at)
-      # expect(response_body['finished_at']).to eql date_to_y_m_d_h_m_s(trip.finished_at)
-
+      expect(response_body['user_id']).to eql trip.user_id
+      expect(response_body['bike_id']).to eql trip.bike_id
+      expect(response_body['started_at']).to eql date_to_y_m_d_h_m_s(trip.started_at)
+      expect(response_body['finished_at']).to eql date_to_y_m_d_h_m_s(trip.finished_at)
       expect(response_body['traveled_distance']).to eql trip.traveled_distance
       expect(response_body['origin_station']).to eql trip.origin_station
       expect(response_body['destination_station']).to eql trip.destination_station
-      expect(response_body['bike_id']).to eql trip.bike_id
-      expect(response_body['user_id']).to eql trip.user_id
     end
   end
 end
