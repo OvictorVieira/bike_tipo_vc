@@ -1,4 +1,4 @@
-class TripSerializer < ActiveModel::Serializer
+class TripSerializer < ApplicationSerializer
 
   include DateFormatter
 
