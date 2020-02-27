@@ -22,6 +22,12 @@ RSpec.describe Trip, type: :model do
       expect(trip).to be_valid
     end
 
+    it "is valid without a destination_station" do
+      trip.destination_station = nil
+
+      expect(trip).to be_valid
+    end
+
     it "is not valid without a user" do
       trip.user = nil
 
@@ -48,12 +54,6 @@ RSpec.describe Trip, type: :model do
 
     it "is not valid without a origin_station" do
       trip.origin_station = nil
-
-      expect(trip).to_not be_valid
-    end
-
-    it "is not valid without a destination_station" do
-      trip.destination_station = nil
 
       expect(trip).to_not be_valid
     end

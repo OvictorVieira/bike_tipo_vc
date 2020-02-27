@@ -4,6 +4,12 @@ class Trip < ApplicationRecord
 
   belongs_to :bike
   belongs_to :user
-  belongs_to :station, foreign_key: 'origin_station'
-  belongs_to :station, foreign_key: 'destination_station'
+
+  def load_origin_station
+    Station.find(origin_station)
+  end
+
+  def load_destination_station
+    Station.find(destination_station)
+  end
 end

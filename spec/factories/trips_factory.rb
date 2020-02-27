@@ -6,6 +6,5 @@ FactoryBot.define do
 
     association(:bike)
     association(:user)
-    association(:station)
   end
 end
