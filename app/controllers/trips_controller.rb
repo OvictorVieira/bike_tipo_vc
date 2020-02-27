@@ -2,8 +2,6 @@ class TripsController < ApplicationController
 
   before_action :load_trip, only: [:show]
 
-  # GET /trips
-  # GET /trips.json
   def index
     @trips = TripRepository.all
 
@@ -13,8 +11,6 @@ class TripsController < ApplicationController
     end
   end
 
-  # GET /trips/1
-  # GET /trips/1.json
   def show
     respond_to do |format|
       format.html
