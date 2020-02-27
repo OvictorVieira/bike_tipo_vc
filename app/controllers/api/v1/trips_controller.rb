@@ -1,9 +1,9 @@
 class Api::V1::TripsController < ApplicationController
 
   def index
-    @trips = TripRepository.all
+    trips = TripRepository.all
 
-    render json: @trips, each_serializer: TripSerializer
+    render json: trips, each_serializer: TripSerializer
   end
 
   def show
