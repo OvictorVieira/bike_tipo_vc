@@ -9,7 +9,7 @@ class TripRepository
       Trip.find(id)
     end
 
-    def create!(attributes)
+    def create!(**attributes)
       Trip.create!(attributes)
     end
   end

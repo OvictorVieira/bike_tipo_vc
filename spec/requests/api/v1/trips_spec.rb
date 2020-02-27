@@ -110,7 +110,49 @@ RSpec.describe "Api::V1::Trips", type: :request do
 
     context 'when record is unprocessable entity' do
 
-      it 'when creating trip with invalid data' do
+      it 'when creating trip with invalid user_id' do
+        nonexistent_user_id = -> { -1 }
+        random_bike_id = -> { Bike.all[rand(0..10)].id }
+        random_station_id = -> { Station.all[rand(0..10)].id }
+
+        valid_params = {
+          user_id: nonexistent_user_id.call,
+          bike_id: random_bike_id.call,
+          origin_station: random_station_id.call
+        }
+
+        post '/api/v1/trips',
+             headers: { 'ACCEPT': 'application/json'},
+             params: valid_params
+
+        response_body = JsonHelper.json_parser(response.body)
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response_body['message']).to eql I18n.t('activerecord.errors.messages.invalid_fields')
+      end
+
+      it 'when creating trip with invalid bike_id' do
+        random_user_id = -> { User.all[rand(0..10)].id }
+        nonexistent_bike_id = -> { -1 }
+        random_station_id = -> { Station.all[rand(0..10)].id }
+
+        valid_params = {
+          user_id: random_user_id.call,
+          bike_id: nonexistent_bike_id.call,
+          origin_station: random_station_id.call
+        }
+
+        post '/api/v1/trips',
+             headers: { 'ACCEPT': 'application/json'},
+             params: valid_params
+
+        response_body = JsonHelper.json_parser(response.body)
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response_body['message']).to eql I18n.t('activerecord.errors.messages.invalid_fields')
+      end
+
+      it 'when creating trip with invalid station_id' do
         random_user_id = -> { User.all[rand(0..10)].id }
         random_bike_id = -> { Bike.all[rand(0..10)].id }
         nonexistent_station_id = -> { -1 }
@@ -128,7 +170,7 @@ RSpec.describe "Api::V1::Trips", type: :request do
         response_body = JsonHelper.json_parser(response.body)
 
         expect(response).to have_http_status(:unprocessable_entity)
-        expect(response_body[:message]).to eql I18n.t('activerecord.errors.messages.invalid_fields')
+        expect(response_body['message']).to eql I18n.t('activerecord.errors.messages.invalid_fields')
       end
     end
 

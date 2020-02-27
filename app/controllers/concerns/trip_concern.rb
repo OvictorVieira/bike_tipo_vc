@@ -5,6 +5,6 @@ module TripConcern
   end
 
   def trip_params
-    params.fetch(:trip)
+    params.permit(:user_id, :bike_id, :origin_station, :destination_station)
   end
 end
