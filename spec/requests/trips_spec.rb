@@ -14,21 +14,28 @@ RSpec.describe "Trips", type: :request do
 
   describe "GET /trips" do
 
-    it 'returns a list of trips' do
-      get trips_path
+    context 'when trip list returns successfully' do
 
-      expect(response).to be_successful
+      it 'returns a list of trips' do
+        get trips_path
+
+        expect(response).to be_successful
+      end
     end
+
   end
 
   describe "GET /trips/:id" do
 
-    it 'return a trip as JSON' do
-      trip = Trip.all[rand(0..10)]
+    context 'when record is found' do
+      it 'return a trip with successful' do
+        trip = Trip.all[rand(0..10)]
 
-      get trip_path(trip.id)
+        get trip_path(trip.id)
 
-      expect(response).to be_successful
+        expect(response).to be_successful
+      end
     end
+
   end
 end
