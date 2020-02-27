@@ -9,7 +9,7 @@ RSpec.describe "Trips", type: :request do
     CreateTripMocks.create_bike_mocks
     CreateTripMocks.create_user_mocks
     CreateTripMocks.create_station_mocks
-    CreateTripMocks.create_trip_mocks
+    CreateTripMocks.create_complete_trip_mocks
   end
 
   describe "GET /trips" do

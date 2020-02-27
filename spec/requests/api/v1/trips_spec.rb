@@ -3,15 +3,15 @@ require_relative '../../utils/create_trip_mocks'
 
 include DateFormatter
 
-RSpec.describe "Api::V1::Trips", type: :request do
+RSpec.describe 'Api::V1::Trips', type: :request do
 
-  describe "GET /api/v1/trips" do
+  describe 'GET /api/v1/trips' do
 
     before do
       CreateTripMocks.create_bike_mocks
       CreateTripMocks.create_user_mocks
       CreateTripMocks.create_station_mocks
-      CreateTripMocks.create_trip_mocks
+      CreateTripMocks.create_complete_trip_mocks
     end
 
     context 'when trip list returns successfully' do
@@ -31,13 +31,13 @@ RSpec.describe "Api::V1::Trips", type: :request do
 
   end
 
-  describe "GET /api/v1/trips/:id" do
+  describe 'GET /api/v1/trips/:id' do
 
     before do
       CreateTripMocks.create_bike_mocks
       CreateTripMocks.create_user_mocks
       CreateTripMocks.create_station_mocks
-      CreateTripMocks.create_trip_mocks
+      CreateTripMocks.create_complete_trip_mocks
     end
 
     context 'when record is found' do
@@ -77,7 +77,7 @@ RSpec.describe "Api::V1::Trips", type: :request do
     end
   end
 
-  describe "POST /api/v1/trips" do
+  describe 'POST /api/v1/trips' do
 
     before do
       CreateTripMocks.create_bike_mocks
@@ -176,4 +176,5 @@ RSpec.describe "Api::V1::Trips", type: :request do
     end
 
   end
+  
 end
