@@ -64,4 +64,35 @@ RSpec.describe Trip, type: :model do
       expect(trip).to be_valid
     end
   end
+
+  context 'test relationship of stations' do
+    let(:user) { create(:user) }
+    let(:bike) { create(:bike) }
+    let(:station_sao_paulo) { create(:station) }
+    let(:station_da_luz) do
+      create(:station, name: 'Estação da Luz',
+             latitude: -22.2232155,
+             longitude: -49.9879748)
+    end
+
+    let(:trip) do
+      create(:trip, user: user,
+             bike: bike,
+             origin_station: station_sao_paulo.id,
+             destination_station: station_da_luz.id)
+    end
+
+    it 'returns station on load_origin_station method call' do
+      origin_station = trip.load_origin_station
+
+      expect(origin_station).to be_present
+    end
+
+    it 'returns station on load_destination_station method call' do
+      origin_station = trip.load_destination_station
+
+      expect(origin_station).to be_present
+    end
+
+  end
 end
