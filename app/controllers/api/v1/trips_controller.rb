@@ -5,14 +5,14 @@ class Api::V1::TripsController < ApplicationController
   def index
     trips = TripRepository.all
 
-    render json: trips, each_serializer: TripSerializer
+    render json: trips, status: :ok, each_serializer: TripSerializer
   end
 
   def show
     begin
       load_trip
 
-      render json: @trip
+      render json: @trip, status: :ok
 
     rescue ActiveRecord::RecordNotFound
 
@@ -34,6 +34,26 @@ class Api::V1::TripsController < ApplicationController
 
       render json: { message: I18n.t('activerecord.errors.messages.invalid_fields') },
              status: :unprocessable_entity
+    end
+  end
+
+  def finish
+    begin
+      load_trip
+
+      # TODO criar command para finalizar a Trip
+      #
+      # TODO na command, fazer:
+      #
+      # TODO Validar se não está devolvendo na mesma estação de retirada
+      # TODO Validar se não está devolvendo na mesma estação de retirada
+
+      render json: @trip, status: :ok
+
+    rescue ActiveRecord::RecordNotFound
+
+      render json: { message: I18n.t('activerecord.errors.messages.record_not_found', model_type: I18n.t('trips.label')) },
+             status: :not_found
     end
   end
 

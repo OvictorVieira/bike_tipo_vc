@@ -176,5 +176,31 @@ RSpec.describe 'Api::V1::Trips', type: :request do
     end
 
   end
-  
+
+  describe 'PATCH /api/v1/trips/:id' do
+
+    before do
+      CreateTripMocks.create_bike_mocks
+      CreateTripMocks.create_user_mocks
+      CreateTripMocks.create_station_mocks
+      CreateTripMocks.create_trip_in_progress
+    end
+
+    context 'when finish trip' do
+
+      it 'returns a successfully completed trip' do
+
+        use_third_trip_id_created = -> { Trip.all[3].id }
+        use_fifth_station_id_created = -> { Station.all[5].id }
+
+        valid_params = {
+          destination_station: use_fifth_station_id_created.call
+        }
+
+        put api_v1_finish_path(use_third_trip_id_created.call), params: valid_params
+
+      end
+    end
+
+  end
 end
