@@ -9,6 +9,6 @@ class TripSerializer < ApplicationSerializer
   end
 
   def finished_at
-    date_to_y_m_d_h_m_s(self.object.finished_at)
+    return_date_or_nil { date_to_y_m_d_h_m_s(self.object.finished_at) }
   end
 end
