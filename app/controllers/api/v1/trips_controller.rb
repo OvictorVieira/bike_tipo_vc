@@ -16,7 +16,7 @@ class Api::V1::TripsController < ApplicationController
 
     rescue ActiveRecord::RecordNotFound
 
-      render json: { message: I18n.t('activerecord.errors.messages.record_not_found') },
+      render json: { message: I18n.t('activerecord.errors.messages.record_not_found', model_type: I18n.t('trips.label')) },
              status: :not_found
     end
   end
