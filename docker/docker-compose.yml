@@ -26,8 +26,19 @@ services:
       - postgres
     networks:
       - database-network
+  portainer:
+    image: portainer/portainer
+    container_name: portainer
+    environment:
+      - VIRTUAL_HOST=dev.portainer
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ../portainer_data/:/var/www/html/bike_tipo_vc/portainer_data
+    ports:
+      - 9000:9000
+    restart: always
 
-  web:
+  application:
     tty: true
     stdin_open: true
     build: ./
