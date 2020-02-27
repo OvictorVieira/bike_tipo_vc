@@ -9,7 +9,7 @@ RSpec.describe "Api::V1::Trips", type: :request do
     CreateTripMocks.create_mocks
   end
 
-  describe "GET /trips" do
+  describe "GET /api/v1/trips" do
 
     it 'returns a list of trips' do
       get api_v1_trips_path, headers: { 'ACCEPT': 'application/json'}
@@ -25,7 +25,7 @@ RSpec.describe "Api::V1::Trips", type: :request do
 
   end
 
-  describe "GET /trips/:id" do
+  describe "GET /api/v1/trips/:id" do
 
     it 'return a trip' do
       trip = Trip.all[rand(0..10)]
