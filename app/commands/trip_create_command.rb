@@ -1,4 +1,4 @@
-class TripCreator
+class TripCreateCommand
 
   def initialize(params)
     @bike_id = params[:bike_id]
@@ -6,12 +6,8 @@ class TripCreator
     @origin_station = params[:origin_station]
   end
 
-  def create_trip
-    begin
-      trip_repository.create!(trip_attributes)
-    rescue => e
-      binding.pry
-    end
+  def create!
+    trip_repository.create!(trip_attributes)
   end
 
   private

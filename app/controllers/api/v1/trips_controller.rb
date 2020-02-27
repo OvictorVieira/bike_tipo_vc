@@ -20,13 +20,14 @@ class Api::V1::TripsController < ApplicationController
 
   def create
     begin
-      trip_creator = TripCreator.new(params)
+      trip_creator = TripCreateCommand.new(params)
 
-      trip_created = trip_creator.create_trip
+      trip_created = trip_creator.create!
 
       render json: trip_created, status: :created
-    rescue => error
-      render json: { message: error.message },
+    rescue ActiveRecord::RecordInvalid
+
+      render json: { message: I18n.t('activerecord.errors.messages.invalid_fields') },
              status: :unprocessable_entity
     end
   end
