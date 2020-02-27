@@ -8,5 +8,9 @@ class TripRepository
     def find_by_id(id)
       Trip.find(id)
     end
+
+    def create!(attributes)
+      Trip.create!(attributes)
+    end
   end
 end

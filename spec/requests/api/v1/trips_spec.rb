@@ -66,4 +66,35 @@ RSpec.describe "Api::V1::Trips", type: :request do
       expect(response_body['message']).to eql(I18n.t('activerecord.errors.messages.record_not_found'))
     end
   end
+
+  describe "POST /api/v1/trips" do
+
+    before do
+      CreateTripMocks.create_bike_mocks
+      CreateTripMocks.create_user_mocks
+      CreateTripMocks.create_station_mocks
+    end
+
+    it 'return a created trip' do
+      random_user_id = -> { User.all[rand(0..10)].id }
+      random_bike_id = -> { Bike.all[rand(0..10)].id }
+      random_station_id = -> { Station.all[rand(0..10)].id }
+
+      valid_params = {
+        user_id: random_user_id.call,
+        bike_id: random_bike_id.call,
+        origin_station: random_station_id.call
+      }
+
+      post '/api/v1/trips',
+           headers: { 'ACCEPT': 'application/json'},
+           params: valid_params
+
+      response_body = JsonHelper.json_parser(response.body)
+
+      expect(response).to have_http_status(:created)
+      expect(response_body).to be_present
+    end
+
+  end
 end

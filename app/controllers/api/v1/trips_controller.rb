@@ -18,6 +18,19 @@ class Api::V1::TripsController < ApplicationController
     end
   end
 
+  def create
+    begin
+      trip_creator = TripCreator.new(params)
+
+      trip_created = trip_creator.create_trip
+
+      render json: trip_created, status: :created
+    rescue => error
+      render json: { message: error.message },
+             status: :unprocessable_entity
+    end
+  end
+
   private
 
     include TripConcern
