@@ -1,4 +1,5 @@
 require_relative '../config/spec/support/simplecov_config'
+require_relative '../spec/utils/json_helper'
 
 RSpec.configure do |config|
   config.expect_with :rspec do |expectations|
