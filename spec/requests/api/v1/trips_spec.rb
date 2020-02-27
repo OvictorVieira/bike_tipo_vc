@@ -51,9 +51,9 @@ RSpec.describe "Api::V1::Trips", type: :request do
 
       response_body = JsonHelper.json_parser(response.body)
 
-      expect(response).to be_successful
+      expect(response).to be_not_found
       expect(response.content_type).to eql('application/json; charset=utf-8')
-      expect(response_body['status']).to eql('not_found')
+      expect(response_body['message']).to eql(I18n.t('activerecord.errors.messages.record_not_found'))
     end
   end
 end

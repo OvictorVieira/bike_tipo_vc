@@ -13,7 +13,8 @@ class Api::V1::TripsController < ApplicationController
       render json: @trip
     rescue ActiveRecord::RecordNotFound
 
-      render json: { status: :not_found }
+      render json: { message: I18n.t('activerecord.errors.messages.record_not_found') },
+             status: :not_found
     end
   end
 
