@@ -5,11 +5,14 @@ include DateFormatter
 
 RSpec.describe "Api::V1::Trips", type: :request do
 
-  before do
-    CreateTripMocks.create_mocks
-  end
-
   describe "GET /api/v1/trips" do
+
+    before do
+      CreateTripMocks.create_bike_mocks
+      CreateTripMocks.create_user_mocks
+      CreateTripMocks.create_station_mocks
+      CreateTripMocks.create_trip_mocks
+    end
 
     it 'returns a list of trips' do
       get api_v1_trips_path, headers: { 'ACCEPT': 'application/json'}
@@ -26,6 +29,13 @@ RSpec.describe "Api::V1::Trips", type: :request do
   end
 
   describe "GET /api/v1/trips/:id" do
+
+    before do
+      CreateTripMocks.create_bike_mocks
+      CreateTripMocks.create_user_mocks
+      CreateTripMocks.create_station_mocks
+      CreateTripMocks.create_trip_mocks
+    end
 
     it 'return a trip' do
       trip = Trip.all[rand(0..10)]

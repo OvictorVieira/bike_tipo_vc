@@ -6,7 +6,10 @@ include DateFormatter
 RSpec.describe "Trips", type: :request do
 
   before do
-    CreateTripMocks.create_mocks
+    CreateTripMocks.create_bike_mocks
+    CreateTripMocks.create_user_mocks
+    CreateTripMocks.create_station_mocks
+    CreateTripMocks.create_trip_mocks
   end
 
   describe "GET /trips" do

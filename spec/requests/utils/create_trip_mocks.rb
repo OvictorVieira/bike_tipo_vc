@@ -1,15 +1,23 @@
 class CreateTripMocks
   class << self
 
-    def create_mocks
+    def create_bike_mocks
+      (0..10).each { FactoryBot.create(:bike, code: Faker::Code.ean) }
+    end
+
+    def create_user_mocks
+      (0..10).each { FactoryBot.create(:user, name: Faker::Name.name) }
+    end
+
+    def create_station_mocks
       (0..10).each do
-        FactoryBot.create(:bike, code: Faker::Code.ean)
-        FactoryBot.create(:user, name: Faker::Name.name)
         FactoryBot.create(:station, name: Faker::Name.name,
                           latitude: Faker::Number.negative,
                           longitude: Faker::Number.positive)
       end
+    end
 
+    def create_trip_mocks
       (0..10).each do
         bike = Bike.all[rand(0..10)]
         user = User.all[rand(0..10)]
