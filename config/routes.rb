@@ -1,3 +1,3 @@
 Rails.application.routes.draw do
-  resources :trips, except: [:edit, :update, :destroy]
+  resources :trips, only: [:index, :show, :create, :update]
 end
