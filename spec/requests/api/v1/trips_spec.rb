@@ -72,7 +72,7 @@ RSpec.describe 'Api::V1::Trips', type: :request do
         expect(response).to be_not_found
         expect(response.content_type).to eql('application/json; charset=utf-8')
         expect(response_body['message']).to eql(I18n.t('activerecord.errors.messages.record_not_found',
-                                                       model_type: I18n.t('trips.label')))
+                                                       model_type: I18n.t('trips.label.trip')))
       end
     end
   end
@@ -190,16 +190,28 @@ RSpec.describe 'Api::V1::Trips', type: :request do
 
       it 'returns a successfully completed trip' do
 
-        use_third_trip_id_created = -> { Trip.all[3].id }
+        use_third_trip_id_created = -> { Trip.all[3] }
         use_fifth_station_id_created = -> { Station.all[5].id }
 
         valid_params = {
           destination_station: use_fifth_station_id_created.call
         }
 
-        put api_v1_finish_path(use_third_trip_id_created.call), params: valid_params
+        trip = use_third_trip_id_created.call
+
+        put api_v1_finish_path(trip.id), params: valid_params
+
+        response_body = JsonHelper.json_parser(response.body)
 
         expect(response).to have_http_status(:ok)
+
+        expect(response_body['user_id']).to eql trip.user_id
+        expect(response_body['bike_id']).to eql trip.bike_id
+        expect(response_body['started_at']).to eql date_to_y_m_d_h_m_s(trip.started_at)
+        expect(response_body['finished_at']).to eql date_to_y_m_d_h_m_s(trip.finished_at)
+        expect(response_body['traveled_distance']).to eql trip.traveled_distance
+        expect(response_body['origin_station']).to eql trip.origin_station
+        expect(response_body['destination_station']).to eql trip.destination_station
       end
     end
 
