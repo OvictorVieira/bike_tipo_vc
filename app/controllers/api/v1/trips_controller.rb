@@ -23,14 +23,16 @@ class Api::V1::TripsController < ApplicationController
 
   def create
     begin
-      create_trip_command = CreateTripCommand.new(TripRepository)
-
-      trip_created = create_trip_command
-                       .create!(params[:bike_id],
-                                params[:user_id],
-                                params[:origin_station])
+      trip_created = CreateTripBuilder.create!(params[:bike_id],
+                                               params[:user_id],
+                                               params[:origin_station])
 
       render json: trip_created, status: :created
+
+    rescue RentBikesUnderMaintenanceError => error
+
+      render json: { message: error.message },
+             status: :unprocessable_entity
 
     rescue ActiveRecord::RecordInvalid, ActiveRecord::InvalidForeignKey
 
