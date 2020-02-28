@@ -2,9 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Station, type: :model do
   context 'validations tests' do
-    let(:station) do
-      create(:station)
-    end
+    let(:station) { create(:station) }
 
     it "is valid with valid attributes" do
       expect(station).to be_valid
