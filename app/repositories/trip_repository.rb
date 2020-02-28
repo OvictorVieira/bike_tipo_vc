@@ -12,5 +12,9 @@ class TripRepository
     def create!(**attributes)
       Trip.create!(attributes)
     end
+
+    def update_attributes!(**attributes)
+      Trip.update_attributes!(attributes)
+    end
   end
 end

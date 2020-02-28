@@ -16,14 +16,16 @@ class Api::V1::TripsController < ApplicationController
 
     rescue ActiveRecord::RecordNotFound
 
-      render json: { message: I18n.t('activerecord.errors.messages.record_not_found', model_type: I18n.t('trips.label')) },
+      render json: { message: I18n.t('activerecord.errors.messages.record_not_found', model_type: I18n.t('trips.label.trip')) },
              status: :not_found
     end
   end
 
   def create
     begin
-      trip_created = TripCreateCommand
+      create_trip_command = CreateTripCommand.new(TripRepository)
+
+      trip_created = create_trip_command
                        .create!(params[:bike_id],
                                 params[:user_id],
                                 params[:origin_station])
@@ -41,18 +43,20 @@ class Api::V1::TripsController < ApplicationController
     begin
       load_trip
 
-      # TODO criar command para finalizar a Trip
-      #
-      # TODO na command, fazer:
-      #
-      # TODO Validar se não está devolvendo na mesma estação de retirada
-      # TODO Validar se não está devolvendo na mesma estação de retirada
+      finish_trip = FinishTripBuilder.new(@trip.load_origin_station, params[:destination_station])
+
+      finish_trip.build(@trip)
 
       render json: @trip, status: :ok
 
+    rescue FinishAtOriginStationError => error
+
+      render json: { message: error.message },
+             status: :unprocessable_entity
+
     rescue ActiveRecord::RecordNotFound
 
-      render json: { message: I18n.t('activerecord.errors.messages.record_not_found', model_type: I18n.t('trips.label')) },
+      render json: { message: I18n.t('activerecord.errors.messages.record_not_found', model_type: I18n.t('trips.label.trip')) },
              status: :not_found
     end
   end

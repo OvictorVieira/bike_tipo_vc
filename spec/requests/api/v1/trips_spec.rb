@@ -177,7 +177,7 @@ RSpec.describe 'Api::V1::Trips', type: :request do
 
   end
 
-  describe 'PATCH /api/v1/trips/:id' do
+  describe 'PUT /api/v1/trips/:id' do
 
     before do
       CreateTripMocks.create_bike_mocks
@@ -199,6 +199,7 @@ RSpec.describe 'Api::V1::Trips', type: :request do
 
         put api_v1_finish_path(use_third_trip_id_created.call), params: valid_params
 
+        expect(response).to have_http_status(:ok)
       end
     end
 
