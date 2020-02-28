@@ -1,4 +1,4 @@
-class JsonHelper
+class JSONHelper
 
   class << self
 

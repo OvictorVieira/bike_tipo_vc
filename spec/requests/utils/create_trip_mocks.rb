@@ -17,7 +17,7 @@ class CreateTripMocks
       end
     end
 
-    def create_trip_mocks
+    def create_complete_trip_mocks
       (0..10).each do
         bike = Bike.all[rand(0..10)]
         user = User.all[rand(0..10)]
@@ -27,6 +27,18 @@ class CreateTripMocks
         FactoryBot.create(:trip, bike: bike, user: user,
                           origin_station: origin_station.id,
                           destination_station: destination_station.id)
+      end
+    end
+
+    def create_trip_in_progress
+      (0..10).each do
+        bike = Bike.all[rand(0..10)]
+        user = User.all[rand(0..10)]
+        origin_station = Station.all[rand(0..10)]
+
+        FactoryBot.create(:trip, bike: bike, user: user,
+                          origin_station: origin_station.id,
+                          traveled_distance: nil)
       end
     end
   end
