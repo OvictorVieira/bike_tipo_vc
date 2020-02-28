@@ -19,9 +19,9 @@ RSpec.describe 'Api::V1::Trips', type: :request do
       it 'returns a list of trips' do
         get api_v1_trips_path, headers: { 'ACCEPT': 'application/json'}
 
-        trips_created_mock = JsonHelper.json_loader('spec/requests/mocks/trips_created.json')
-        parsed_trips_created_mock = JsonHelper.json_parser(trips_created_mock)
-        response_body = JsonHelper.json_parser(response.body)
+        trips_created_mock = JSONHelper.json_loader('spec/requests/mocks/trips_created.json')
+        parsed_trips_created_mock = JSONHelper.json_parser(trips_created_mock)
+        response_body = JSONHelper.json_parser(response.body)
 
         expect(response).to be_successful
         expect(response.content_type).to eql('application/json; charset=utf-8')
@@ -47,7 +47,7 @@ RSpec.describe 'Api::V1::Trips', type: :request do
 
         get api_v1_trip_path(trip.id), headers: { 'ACCEPT': 'application/json'}
 
-        response_body = JsonHelper.json_parser(response.body)
+        response_body = JSONHelper.json_parser(response.body)
 
         expect(response).to be_successful
         expect(response.content_type).to eql('application/json; charset=utf-8')
@@ -67,7 +67,7 @@ RSpec.describe 'Api::V1::Trips', type: :request do
       it 'return not_found' do
         get api_v1_trip_path(-1), headers: { 'ACCEPT': 'application/json'}
 
-        response_body = JsonHelper.json_parser(response.body)
+        response_body = JSONHelper.json_parser(response.body)
 
         expect(response).to be_not_found
         expect(response.content_type).to eql('application/json; charset=utf-8')
@@ -102,7 +102,7 @@ RSpec.describe 'Api::V1::Trips', type: :request do
              headers: { 'ACCEPT': 'application/json'},
              params: valid_params
 
-        response_body = JsonHelper.json_parser(response.body)
+        response_body = JSONHelper.json_parser(response.body)
 
         expect(response).to have_http_status(:created)
         expect(response_body).to be_present
@@ -126,7 +126,7 @@ RSpec.describe 'Api::V1::Trips', type: :request do
              headers: { 'ACCEPT': 'application/json'},
              params: valid_params
 
-        response_body = JsonHelper.json_parser(response.body)
+        response_body = JSONHelper.json_parser(response.body)
 
         expect(response).to have_http_status(:unprocessable_entity)
         expect(response_body['message']).to eql I18n.t('activerecord.errors.messages.invalid_fields')
@@ -147,7 +147,7 @@ RSpec.describe 'Api::V1::Trips', type: :request do
              headers: { 'ACCEPT': 'application/json'},
              params: valid_params
 
-        response_body = JsonHelper.json_parser(response.body)
+        response_body = JSONHelper.json_parser(response.body)
 
         expect(response).to have_http_status(:unprocessable_entity)
         expect(response_body['message']).to eql I18n.t('activerecord.errors.messages.invalid_fields')
@@ -168,7 +168,7 @@ RSpec.describe 'Api::V1::Trips', type: :request do
              headers: { 'ACCEPT': 'application/json'},
              params: valid_params
 
-        response_body = JsonHelper.json_parser(response.body)
+        response_body = JSONHelper.json_parser(response.body)
 
         expect(response).to have_http_status(:unprocessable_entity)
         expect(response_body['message']).to eql I18n.t('activerecord.errors.messages.invalid_fields')
@@ -201,7 +201,7 @@ RSpec.describe 'Api::V1::Trips', type: :request do
 
         put api_v1_finish_path(trip.id), params: valid_params
 
-        response_body = JsonHelper.json_parser(response.body)
+        response_body = JSONHelper.json_parser(response.body)
 
         expect(response).to have_http_status(:ok)
 
@@ -212,6 +212,42 @@ RSpec.describe 'Api::V1::Trips', type: :request do
         expect(response_body['traveled_distance']).to eql trip.traveled_distance
         expect(response_body['origin_station']).to eql trip.origin_station
         expect(response_body['destination_station']).to eql trip.destination_station
+      end
+
+      it 'returns not found' do
+
+        use_fifth_station_id_created = -> { Station.all[5].id }
+
+        valid_params = {
+          destination_station: use_fifth_station_id_created.call
+        }
+
+        put api_v1_finish_path(-1), params: valid_params
+
+        response_body = JSONHelper.json_parser(response.body)
+
+        expect(response).to have_http_status(:not_found)
+
+        expect(response_body['message']).to eql I18n.t('activerecord.errors.messages.record_not_found', model_type: I18n.t('trips.label.trip'))
+      end
+
+      it 'returns unprocessable_entity when delivering bike at origin_station' do
+
+        use_third_trip_id_created = -> { Trip.all[3] }
+
+        trip = use_third_trip_id_created.call
+
+        valid_params = {
+          destination_station: trip.origin_station
+        }
+
+        put api_v1_finish_path(trip.id), params: valid_params
+
+        response_body = JSONHelper.json_parser(response.body)
+
+        expect(response).to have_http_status(:unprocessable_entity)
+
+        expect(response_body['message']).to eql I18n.t('trips.error.finish_at_origin_station_error')
       end
     end
 
