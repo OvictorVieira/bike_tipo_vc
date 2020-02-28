@@ -1,5 +1,7 @@
 FactoryBot.define do
   factory :bike do
-    code { '9988776655443' }
+    code { Faker::Code.ean }
+
+    association(:station)
   end
 end

@@ -8,9 +8,9 @@ RSpec.describe 'Api::V1::Trips', type: :request do
   describe 'GET /api/v1/trips' do
 
     before do
-      CreateTripMocks.create_bike_mocks
-      CreateTripMocks.create_user_mocks
       CreateTripMocks.create_station_mocks
+      CreateTripMocks.create_user_mocks
+      CreateTripMocks.create_bike_mocks
       CreateTripMocks.create_complete_trip_mocks
     end
 
@@ -34,9 +34,9 @@ RSpec.describe 'Api::V1::Trips', type: :request do
   describe 'GET /api/v1/trips/:id' do
 
     before do
-      CreateTripMocks.create_bike_mocks
-      CreateTripMocks.create_user_mocks
       CreateTripMocks.create_station_mocks
+      CreateTripMocks.create_user_mocks
+      CreateTripMocks.create_bike_mocks
       CreateTripMocks.create_complete_trip_mocks
     end
 
@@ -80,9 +80,9 @@ RSpec.describe 'Api::V1::Trips', type: :request do
   describe 'POST /api/v1/trips' do
 
     before do
-      CreateTripMocks.create_bike_mocks
-      CreateTripMocks.create_user_mocks
       CreateTripMocks.create_station_mocks
+      CreateTripMocks.create_user_mocks
+      CreateTripMocks.create_bike_mocks
     end
 
     context 'when record is created' do
@@ -180,9 +180,9 @@ RSpec.describe 'Api::V1::Trips', type: :request do
   describe 'PUT /api/v1/trips/:id' do
 
     before do
+      CreateTripMocks.create_station_mocks
       CreateTripMocks.create_bike_mocks
       CreateTripMocks.create_user_mocks
-      CreateTripMocks.create_station_mocks
       CreateTripMocks.create_trip_in_progress
     end
 
