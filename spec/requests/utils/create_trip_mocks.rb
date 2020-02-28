@@ -2,7 +2,11 @@ class CreateTripMocks
   class << self
 
     def create_bike_mocks
-      (0..10).each { FactoryBot.create(:bike, code: Faker::Code.ean) }
+      random_station = Station.all[rand(0..10)]
+      (0..10).each do  FactoryBot.create(:bike,
+                                         code: Faker::Code.ean,
+                                         station: random_station)
+      end
     end
 
     def create_user_mocks
@@ -19,25 +23,29 @@ class CreateTripMocks
 
     def create_complete_trip_mocks
       (0..10).each do
-        bike = Bike.all[rand(0..10)]
-        user = User.all[rand(0..10)]
-        origin_station = Station.all[rand(0..10)]
-        destination_station = Station.all[rand(0..10)]
+        random_bike = Bike.all[rand(0..10)]
+        random_user = User.all[rand(0..10)]
+        random_origin_station = Station.all[rand(0..10)]
+        random_destination_station = Station.all[rand(0..10)]
 
-        FactoryBot.create(:trip, bike: bike, user: user,
-                          origin_station: origin_station.id,
-                          destination_station: destination_station.id)
+        FactoryBot.create(:trip,
+                          bike: random_bike,
+                          user: random_user,
+                          origin_station: random_origin_station.id,
+                          destination_station: random_destination_station.id)
       end
     end
 
     def create_trip_in_progress
       (0..10).each do
-        bike = Bike.all[rand(0..10)]
-        user = User.all[rand(0..10)]
-        origin_station = Station.all[rand(0..10)]
+        random_bike = Bike.all[rand(0..10)]
+        random_user = User.all[rand(0..10)]
+        random_origin_station = Station.all[rand(0..10)]
 
-        FactoryBot.create(:trip, bike: bike, user: user,
-                          origin_station: origin_station.id,
+        FactoryBot.create(:trip,
+                          bike: random_bike,
+                          user: random_user,
+                          origin_station: random_origin_station.id,
                           traveled_distance: nil)
       end
     end
