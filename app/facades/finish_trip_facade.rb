@@ -1,4 +1,4 @@
-class FinishTripBuilder
+class FinishTripFacade
 
   include FinishTripPolicy
 
@@ -7,7 +7,7 @@ class FinishTripBuilder
     @destination_station = StationRepository.find_by_id(destination_station_id)
   end
 
-  def build(trip)
+  def finish!(trip)
     raise FinishAtOriginStationError if destination_is_origin_station? @origin_station.id, @destination_station.id
 
     finish_trip_command = FinishTripCommand.new(trip, TripRepository, @destination_station)
