@@ -4,5 +4,5 @@ class Bike < ApplicationRecord
 
   has_and_belongs_to_many :users, through: :trips
   belongs_to :station
-  belongs_to :bike_maintenance
+  has_one :bike_maintenance
 end

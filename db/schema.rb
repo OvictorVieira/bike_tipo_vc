@@ -10,10 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_28_155039) do
+ActiveRecord::Schema.define(version: 2020_02_28_221158) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "bike_maintenances", force: :cascade do |t|
+    t.string "reason", null: false
+    t.bigint "bike_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "started_at", null: false
+    t.datetime "finished_at"
+    t.index ["bike_id"], name: "index_bike_maintenances_on_bike_id"
+  end
 
   create_table "bikes", force: :cascade do |t|
     t.string "code", null: false
@@ -56,6 +66,7 @@ ActiveRecord::Schema.define(version: 2020_02_28_155039) do
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
+  add_foreign_key "bike_maintenances", "bikes"
   add_foreign_key "bikes", "stations"
   add_foreign_key "trips", "bikes"
   add_foreign_key "trips", "stations", column: "destination_station"

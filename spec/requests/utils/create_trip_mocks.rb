@@ -2,10 +2,12 @@ class CreateTripMocks
   class << self
 
     def create_bike_mocks
-      random_station = Station.all[rand(0..10)]
-      (0..10).each do  FactoryBot.create(:bike,
-                                         code: Faker::Code.ean,
-                                         station: random_station)
+      (0..10).each do
+        random_station = Station.all[rand(0..10)]
+
+        FactoryBot.create(:bike,
+                          code: Faker::Code.ean,
+                          station: random_station)
       end
     end
 

@@ -1,5 +1,6 @@
 require 'rails_helper'
 require_relative '../../utils/create_trip_mocks'
+require_relative '../../utils/create_bike_maintenance_mocks'
 
 include DateFormatter
 
@@ -105,19 +106,48 @@ RSpec.describe 'Api::V1::Trips', type: :request do
         response_body = JSONHelper.json_parser(response.body)
 
         expect(response).to have_http_status(:created)
+
         expect(response_body).to be_present
+      end
+
+      it 'when bike left maintenance' do
+        random_user = User.all[rand(0..10)]
+        random_bike = Bike.all[rand(0..10)]
+        random_station = Station.all[rand(0..10)]
+
+        CreateBikeMaintenanceMocks.create_bike_maintenance_for_a(random_bike.id)
+
+        valid_params = {
+          user_id: random_user.id,
+          bike_id: random_bike.id,
+          origin_station: random_station.id
+        }
+
+        post '/api/v1/trips',
+             headers: { 'ACCEPT': 'application/json'},
+             params: valid_params
+
+        response_body = JSONHelper.json_parser(response.body)
+
+        expect(response).to have_http_status(:created)
+        expect(response_body['user_id']).to eql random_user.id
+        expect(response_body['bike_id']).to eql random_bike.id
+        expect(response_body['origin_station']).to be_present
+        expect(response_body['finished_at']).to be_nil
+        expect(response_body['traveled_distance']).to be_nil
+        expect(response_body['destination_station']).to be_nil
       end
     end
 
     context 'when record is unprocessable entity' do
 
       it 'when creating trip with invalid user_id' do
-        nonexistent_user_id = -> { -1 }
+        nonexistent_user_id = -1
         random_bike_id = -> { Bike.all[rand(0..10)].id }
         random_station_id = -> { Station.all[rand(0..10)].id }
 
         valid_params = {
-          user_id: nonexistent_user_id.call,
+          user_id: nonexistent_user_id,
           bike_id: random_bike_id.call,
           origin_station: random_station_id.call
         }
@@ -134,12 +164,12 @@ RSpec.describe 'Api::V1::Trips', type: :request do
 
       it 'when creating trip with invalid bike_id' do
         random_user_id = -> { User.all[rand(0..10)].id }
-        nonexistent_bike_id = -> { -1 }
+        nonexistent_bike_id = -1
         random_station_id = -> { Station.all[rand(0..10)].id }
 
         valid_params = {
           user_id: random_user_id.call,
-          bike_id: nonexistent_bike_id.call,
+          bike_id: nonexistent_bike_id,
           origin_station: random_station_id.call
         }
 
@@ -156,12 +186,12 @@ RSpec.describe 'Api::V1::Trips', type: :request do
       it 'when creating trip with invalid station_id' do
         random_user_id = -> { User.all[rand(0..10)].id }
         random_bike_id = -> { Bike.all[rand(0..10)].id }
-        nonexistent_station_id = -> { -1 }
+        nonexistent_station_id = -1
 
         valid_params = {
           user_id: random_user_id.call,
           bike_id: random_bike_id.call,
-          origin_station: nonexistent_station_id.call
+          origin_station: nonexistent_station_id
         }
 
         post '/api/v1/trips',
@@ -173,18 +203,21 @@ RSpec.describe 'Api::V1::Trips', type: :request do
         expect(response).to have_http_status(:unprocessable_entity)
         expect(response_body['message']).to eql I18n.t('activerecord.errors.messages.invalid_fields')
       end
-    end
-
-    context 'when record is ' do
 
       it 'when bike is under maintenance' do
-        random_user_id = -> { -1 }
-        random_bike_id = -> { Bike.all[rand(0..10)].id }
+        random_user_id = -> { User.all[rand(0..10)].id }
+        random_bike = -> { Bike.all[rand(0..10)] }
         random_station_id = -> { Station.all[rand(0..10)].id }
+
+        bike = random_bike.call
+
+        CreateBikeMaintenanceMocks.create_bike_maintenance_for_a(bike.id)
+
+        BikeMaintenance.last.update(finished_at: nil)
 
         valid_params = {
           user_id: random_user_id.call,
-          bike_id: random_bike_id.call,
+          bike_id: bike.id,
           origin_station: random_station_id.call
         }
 
@@ -195,7 +228,7 @@ RSpec.describe 'Api::V1::Trips', type: :request do
         response_body = JSONHelper.json_parser(response.body)
 
         expect(response).to have_http_status(:unprocessable_entity)
-        expect(response_body['message']).to eql I18n.t('activerecord.errors.messages.invalid_fields')
+        expect(response_body['message']).to eql I18n.t('trips.error.rent_bikes_under_maintenance_error')
       end
     end
 
