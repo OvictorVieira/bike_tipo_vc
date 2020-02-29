@@ -7,6 +7,8 @@ Rails.application.routes.draw do
       resources :trips, except: [:new, :edit, :update, :destroy]
 
       put '/trips/:id', to: 'trips#finish', as: :finish
+
+      resources :stations, only: [:index]
     end
   end
 end

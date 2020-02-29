@@ -5,4 +5,6 @@ class Bike < ApplicationRecord
   has_and_belongs_to_many :users, through: :trips
   belongs_to :station
   has_one :bike_maintenance
+
+  scope :available, -> { where(available: true) }
 end
