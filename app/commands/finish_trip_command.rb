@@ -1,8 +1,9 @@
 class FinishTripCommand
 
-  def initialize(trip, trip_repository, destination_station)
+  def initialize(trip, trip_repository, trip_subscriber, destination_station)
     @trip = trip
     @trip_repository = trip_repository
+    @trip_subscriber = trip_subscriber
     @destination_station = destination_station
   end
 
@@ -12,6 +13,8 @@ class FinishTripCommand
     set_destination_station
 
     set_finished_at
+
+    notify_subscribers
   end
 
   private
@@ -26,5 +29,9 @@ class FinishTripCommand
 
   def set_finished_at
     @trip_repository.update(finished_at: Time.now)
+  end
+
+  def notify_subscribers
+    @trip_subscriber.notify_big_data(@trip.id)
   end
 end
