@@ -1,0 +1,4 @@
+pt-BR:
+  bikes:
+    error:
+      bike_not_available_error: 'Desculpe, mas a bike não está disponível no momento.'

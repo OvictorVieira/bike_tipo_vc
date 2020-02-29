@@ -9,6 +9,8 @@ class CreateTripFacade
 
       raise RentedBikeError if bike_already_rented?(bike_id)
 
+      raise BikeNotAvailableError unless bike_available?(bike_id)
+
       create_trip_command = CreateTripCommand.new(TripRepository)
 
       create_trip_command.create!(bike_id, user_id, origin_station)

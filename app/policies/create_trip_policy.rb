@@ -11,4 +11,10 @@ module CreateTripPolicy
 
     unfinished_bike_trip.present?
   end
+
+  def bike_available?(bike_id)
+    bike = BikeRepository.find_by_id(bike_id)
+
+    bike.available?
+  end
 end
