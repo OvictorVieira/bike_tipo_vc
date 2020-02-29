@@ -29,7 +29,7 @@ class Api::V1::TripsController < ApplicationController
 
       render json: trip_created, status: :created
 
-    rescue RentBikesUnderMaintenanceError => error
+    rescue RentBikesUnderMaintenanceError, RentedBikeError => error
 
       render json: { message: error.message },
              status: :unprocessable_entity

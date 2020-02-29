@@ -5,3 +5,4 @@ pt-BR:
     error:
       finish_at_origin_station_error: 'Desculpe, ainda não é possível devolver a bike na estação que você a retirou.'
       rent_bikes_under_maintenance_error: 'Desculpe, não é possível alugar bikes que estão em manutenção.'
+      ranted_bike_error: 'Desculpe, a bike ainda está alugada.'

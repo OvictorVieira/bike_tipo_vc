@@ -230,6 +230,33 @@ RSpec.describe 'Api::V1::Trips', type: :request do
         expect(response).to have_http_status(:unprocessable_entity)
         expect(response_body['message']).to eql I18n.t('trips.error.rent_bikes_under_maintenance_error')
       end
+
+      it 'when the bike is already rented' do
+        random_user = User.all[rand(0..10)]
+        random_bike = Bike.all[rand(0..10)]
+        origin_station = Station.all[3]
+
+        FactoryBot.create(:trip,
+                          bike: random_bike,
+                          user: random_user,
+                          origin_station: origin_station.id,
+                          finished_at: nil)
+
+        valid_params = {
+          user_id: random_user.id,
+          bike_id: random_bike.id,
+          origin_station: origin_station.id
+        }
+
+        post '/api/v1/trips',
+             headers: { 'ACCEPT': 'application/json'},
+             params: valid_params
+
+        response_body = JSONHelper.json_parser(response.body)
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response_body['message']).to eql I18n.t('trips.error.ranted_bike_error')
+      end
     end
 
   end
