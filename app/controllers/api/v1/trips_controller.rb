@@ -29,10 +29,15 @@ class Api::V1::TripsController < ApplicationController
 
       render json: trip_created, status: :created
 
-    rescue RentBikesUnderMaintenanceError, RentedBikeError => error
+    rescue RentBikesUnderMaintenanceError, RentedBikeError, BikeNotAvailableError => error
 
       render json: { message: error.message },
              status: :unprocessable_entity
+
+    rescue ActiveRecord::RecordNotFound
+
+      render json: { message: I18n.t('activerecord.errors.messages.record_not_found', model_type: I18n.t('trips.label.trip')) },
+             status: :not_found
 
     rescue ActiveRecord::RecordInvalid, ActiveRecord::InvalidForeignKey
 

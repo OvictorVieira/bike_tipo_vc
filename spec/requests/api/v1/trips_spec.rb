@@ -179,8 +179,8 @@ RSpec.describe 'Api::V1::Trips', type: :request do
 
         response_body = JSONHelper.json_parser(response.body)
 
-        expect(response).to have_http_status(:unprocessable_entity)
-        expect(response_body['message']).to eql I18n.t('activerecord.errors.messages.invalid_fields')
+        expect(response).to have_http_status(:not_found)
+        expect(response_body['message']).to eql I18n.t('activerecord.errors.messages.record_not_found', model_type: I18n.t('trips.label.trip'))
       end
 
       it 'when creating trip with invalid station_id' do
@@ -256,6 +256,29 @@ RSpec.describe 'Api::V1::Trips', type: :request do
 
         expect(response).to have_http_status(:unprocessable_entity)
         expect(response_body['message']).to eql I18n.t('trips.error.ranted_bike_error')
+      end
+
+      it 'when bike is not available' do
+        random_user_id = -> { User.all[rand(0..10)].id }
+        random_bike = Bike.all[rand(0..10)]
+        random_station_id = -> { Station.all[rand(0..10)].id }
+
+        random_bike.update(available: false)
+
+        valid_params = {
+          user_id: random_user_id.call,
+          bike_id: random_bike.id,
+          origin_station: random_station_id.call
+        }
+
+        post '/api/v1/trips',
+             headers: { 'ACCEPT': 'application/json'},
+             params: valid_params
+
+        response_body = JSONHelper.json_parser(response.body)
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response_body['message']).to eql I18n.t('bikes.error.bike_not_available_error')
       end
     end
 
