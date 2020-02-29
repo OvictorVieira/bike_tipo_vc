@@ -326,6 +326,7 @@ RSpec.describe 'Api::V1::Trips', type: :request do
 
           expect(job['retry']).to be_truthy
           expect(job['queue']).to eql 'default'
+          expect(job['args'].first).to eql trip.id
           expect(job['class'].constantize).to eql CompletedTripNotifierWorker
         end
       end
