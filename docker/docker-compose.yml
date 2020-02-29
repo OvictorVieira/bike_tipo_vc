@@ -37,6 +37,14 @@ services:
     ports:
       - 9000:9000
     restart: always
+  redis:
+    container_name: redis
+    image: redis
+    ports:
+      - 6379:6379
+    command: redis-server
+    networks:
+      - database-network
 
   application:
     tty: true
@@ -53,6 +61,7 @@ services:
       - 80:80
     depends_on:
       - postgres
+      - redis
     networks:
       - database-network
 

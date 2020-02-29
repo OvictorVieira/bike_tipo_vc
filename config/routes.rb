@@ -1,6 +1,9 @@
 Rails.application.routes.draw do
   resources :trips, only: [:index, :show]
 
+  require 'sidekiq/web'
+  mount Sidekiq::Web => '/sidekiq'
+
   namespace :api do
     namespace :v1 do
 
