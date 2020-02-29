@@ -9,6 +9,7 @@ Rails.application.routes.draw do
       put '/trips/:id', to: 'trips#finish', as: :finish
 
       resources :stations, only: [:index]
+      resources :bikes, only: [:index]
     end
   end
 end
