@@ -1,4 +1,4 @@
-class CompletedTripService
+class CompletedTripNotifierCommand
 
   class << self
 

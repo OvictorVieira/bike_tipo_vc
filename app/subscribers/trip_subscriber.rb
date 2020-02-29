@@ -11,7 +11,7 @@ class TripSubscriber
     def notify_completion(trip_id)
       completed_trip_publisher = CompletedTripPublisher.new
 
-      completed_trip_publisher.subscribe(CompletedTripService)
+      completed_trip_publisher.subscribe(CompletedTripNotifierCommand)
 
       completed_trip_publisher.call(trip_id)
     end
