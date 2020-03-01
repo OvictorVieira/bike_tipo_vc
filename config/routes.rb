@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+
+  devise_for :users
+  root 'home#index'
+
   resources :trips, only: [:index, :show]
 
   require 'sidekiq/web'

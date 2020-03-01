@@ -12,7 +12,9 @@ class CreateTripMocks
     end
 
     def create_user_mocks
-      (0..10).each { FactoryBot.create(:user, name: Faker::Name.name) }
+      (0..10).each do |number|
+        FactoryBot.create(:user, name: Faker::Name.name, email: "amanda_#{number}@gmail.com")
+      end
     end
 
     def create_station_mocks

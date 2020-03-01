@@ -5,6 +5,8 @@ include DateFormatter
 
 RSpec.describe 'Api::V1::Bikes', type: :request do
 
+  login_user
+
   describe 'GET /api/v1/bikes' do
 
     before do
