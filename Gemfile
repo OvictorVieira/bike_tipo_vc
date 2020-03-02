@@ -15,6 +15,7 @@ gem 'active_model_serializers'
 gem 'swagger-docs'
 gem 'wisper', '2.0.0'
 gem 'sidekiq'
+gem 'httparty'
 gem 'devise'
 gem 'simple_token_authentication', '~> 1.0'
 
@@ -39,4 +40,6 @@ group :test do
   gem 'webdrivers'
   gem 'simplecov', require: false
   gem 'faker'
+  gem 'webmock'
+  gem 'vcr'
 end

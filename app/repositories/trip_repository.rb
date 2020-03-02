@@ -13,8 +13,8 @@ class TripRepository
       Trip.create!(attributes)
     end
 
-    def update(**attributes)
-      Trip.update(attributes)
+    def update(trip, **attributes)
+      trip.update(attributes)
     end
 
     def unfinished_bike_trip(bike_id)

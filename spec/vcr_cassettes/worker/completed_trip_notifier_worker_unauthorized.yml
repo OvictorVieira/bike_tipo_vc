@@ -1,0 +1,99 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://springfield-biketipovc.herokuapp.com/trips
+    body:
+      encoding: UTF-8
+      string: '{"user_id":282,"bike_id":279,"started_at":"2020-03-02 14:28:18","finished_at":"2020-03-02
+        14:28:18","traveled_distance":4945.201297948053,"origin":{"station_id":282},"destination":{"station_id":284}}'
+    headers:
+      Content-Type:
+      - application/json
+      Authorization:
+      - Token token=75bfaca3-424c-4b54-b03a-444bfd6823f0
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 401
+      message: Não Autorizado
+    headers:
+      Server:
+      - Cowboy
+      Date:
+      - Mon, 02 Mar 2020 14:28:18 GMT
+      Connection:
+      - keep-alive
+      Content-Type:
+      - text/plain; charset=utf-8
+      Etag:
+      - W/"36a9e7f1c95b82ffb99743e0c5c4ce95"
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      X-Request-Id:
+      - bf442534-a47d-4d77-910f-77c047707308
+      X-Runtime:
+      - '0.019438'
+      Transfer-Encoding:
+      - chunked
+      Via:
+      - 1.1 vegur
+    body:
+      encoding: UTF-8
+      string: " "
+    http_version: null
+  recorded_at: Mon, 02 Mar 2020 14:28:19 GMT
+- request:
+    method: post
+    uri: https://springfield-biketipovc.herokuapp.com/trips
+    body:
+      encoding: UTF-8
+      string: '{"user_id":282,"bike_id":279,"started_at":"2020-03-02 14:28:18","finished_at":"2020-03-02
+        14:28:18","traveled_distance":4945.201297948053,"origin":{"station_id":282},"destination":{"station_id":284}}'
+    headers:
+      Content-Type:
+      - application/json
+      Authorization:
+      - Token token=75bfaca3-424c-4b54-b03a-444bfd6823f0
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 201
+      message: Created
+    headers:
+      Server:
+      - Cowboy
+      Date:
+      - Mon, 02 Mar 2020 14:28:19 GMT
+      Connection:
+      - keep-alive
+      Content-Type:
+      - text/plain; charset=utf-8
+      Etag:
+      - W/"36a9e7f1c95b82ffb99743e0c5c4ce95"
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      X-Request-Id:
+      - d88b692c-8f6d-4a39-8be9-f415c61c5f1f
+      X-Runtime:
+      - '0.017152'
+      Transfer-Encoding:
+      - chunked
+      Via:
+      - 1.1 vegur
+    body:
+      encoding: UTF-8
+      string: " "
+    http_version: null
+  recorded_at: Mon, 02 Mar 2020 14:28:19 GMT
+recorded_with: VCR 5.1.0

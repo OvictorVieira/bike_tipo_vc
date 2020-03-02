@@ -1,6 +1,7 @@
 require 'rails_helper'
 require_relative '../../utils/create_trip_mocks'
 require_relative '../../utils/create_bike_maintenance_mocks'
+require 'sidekiq/testing'
 
 include DateFormatter
 
@@ -341,8 +342,11 @@ RSpec.describe 'Api::V1::Trips', type: :request do
                                          params: valid_params
 
         response_body = JSONHelper.json_parser(response.body)
+        completed_trip_notifier_jobs = CompletedTripNotifierWorker.jobs
 
         expect(response).to have_http_status(:ok)
+
+        trip.reload
 
         expect(response_body['user_id']).to eql trip.user_id
         expect(response_body['bike_id']).to eql trip.bike_id
@@ -351,6 +355,14 @@ RSpec.describe 'Api::V1::Trips', type: :request do
         expect(response_body['traveled_distance']).to eql trip.traveled_distance
         expect(response_body['origin_station']).to eql trip.origin_station
         expect(response_body['destination_station']).to eql trip.destination_station
+
+        completed_trip_notifier_jobs.each do |job|
+
+          expect(job['retry']).to be_truthy
+          expect(job['queue']).to eql 'default'
+          expect(job['args'].first).to eql trip.id
+          expect(job['class'].constantize).to eql CompletedTripNotifierWorker
+        end
       end
 
       it 'returns not found' do

@@ -1,0 +1,4 @@
+pt-BR:
+  big_data:
+    error:
+      unauthorized: 'Erro de requisição não autorizada na API de BIG DATA.'

@@ -10,7 +10,10 @@ class FinishTripFacade
   def finish!(trip)
     raise FinishAtOriginStationError if destination_is_origin_station? @origin_station.id, @destination_station.id
 
-    finish_trip_command = FinishTripCommand.new(trip, TripRepository, @destination_station)
+    finish_trip_command = FinishTripCommand.new(trip,
+                                                TripRepository,
+                                                TripSubscriber,
+                                                @destination_station)
 
     traveled_distance = DistanceCalculatorCommand.calculate_distance(@origin_station.latitude,
                                                                      @origin_station.longitude,
