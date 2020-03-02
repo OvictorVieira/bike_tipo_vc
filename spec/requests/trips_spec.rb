@@ -5,6 +5,8 @@ include DateFormatter
 
 RSpec.describe "Trips", type: :request do
 
+  login_user
+
   before do
     CreateTripMocks.create_station_mocks
     CreateTripMocks.create_user_mocks

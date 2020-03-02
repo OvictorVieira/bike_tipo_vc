@@ -1,4 +1,4 @@
-class Api::V1::BikesController < ApplicationController
+class Api::V1::BikesController < Api::V1::ApplicationController
 
   def index
     bikes = BikeRepository.all
