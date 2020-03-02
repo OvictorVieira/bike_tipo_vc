@@ -13,7 +13,7 @@ class BigData::Api::Communicator
   def post(body, headers)
     request = @communication.post(body, headers)
 
-    raise BigData::Errors::UnauthorizedError if request_unauthorized?(request[:request_code])
+    raise BigData::Errors::UnauthorizedError if !request[:success] && request_unauthorized?(request[:request_code])
 
     request
   end

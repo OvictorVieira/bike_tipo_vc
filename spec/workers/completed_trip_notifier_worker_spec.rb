@@ -13,6 +13,8 @@ RSpec.describe CompletedTripNotifierWorker, type: :request do
       CreateTripMocks.create_bike_mocks
       CreateTripMocks.create_user_mocks
       CreateTripMocks.create_trip_in_progress
+
+      CompletedTripNotifierWorker.clear
     end
 
     let(:user) { User.first }
@@ -20,6 +22,8 @@ RSpec.describe CompletedTripNotifierWorker, type: :request do
     context 'when finish trip' do
 
       it 'returns success when notifying big data API' do
+
+        assert_equal 0, CompletedTripNotifierWorker.jobs.size
 
         use_fourth_trip_id_created = Trip.all[4]
         use_seventh_station_id_created = Station.all[7]
@@ -41,12 +45,19 @@ RSpec.describe CompletedTripNotifierWorker, type: :request do
 
           VCR.use_cassette 'worker/completed_trip_notifier_worker_success' do
 
-            completed_trip_notifier.new.perform(job['args'].first)
+            completed_trip_notifier.perform_async(job['args'].first)
+            CompletedTripNotifierWorker.drain
           end
         end
+
+        use_fourth_trip_id_created.reload
+
+        expect(use_fourth_trip_id_created.notification_delivered).to be_truthy
       end
 
       it 'returns unauthorized when notifying big data API', :vcr do
+
+        assert_equal 0, CompletedTripNotifierWorker.jobs.size
 
         use_fourth_trip_id_created = Trip.all[4]
         use_seventh_station_id_created = Station.all[7]
@@ -70,10 +81,15 @@ RSpec.describe CompletedTripNotifierWorker, type: :request do
 
             VCR.use_cassette 'worker/completed_trip_notifier_worker_unauthorized' do
 
-              completed_trip_notifier.new.perform(job['args'].first)
+              completed_trip_notifier.perform_async(job['args'].first)
+              CompletedTripNotifierWorker.drain
             end
           }.to raise_error BigData::Errors::UnauthorizedError
         end
+
+        use_fourth_trip_id_created.reload
+        
+        expect(use_fourth_trip_id_created.notification_delivered).to be_falsey
       end
     end
   end
