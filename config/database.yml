@@ -17,4 +17,5 @@ test:
 
 production:
   <<: *common
-  database: bike_tipo_vc_production
+  database: <%= Rails.application.config.app.postgres.database %>
+  host: <%= Rails.application.config.app.postgres.host %>

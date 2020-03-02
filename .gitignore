@@ -18,6 +18,8 @@
 /.DS_Store
 /config/.DS_Store
 
+docker/.env
+
 /Gemfile.lock
 /dump_postgres
 /public/packs
