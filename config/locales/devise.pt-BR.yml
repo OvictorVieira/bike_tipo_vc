@@ -42,7 +42,7 @@ pt-BR:
       updated: "Sua conta foi atualizada com sucesso."
     sessions:
       signed_in: "Login efetuado com sucesso!"
-      signed_out: "Saiu com sucesso."
+      signed_out: "Logout efetuado com sucesso."
       already_signed_out: "Saiu com sucesso."
     unlocks:
       send_instructions: "Dentro de minutos, você receberá um email com instruções para o desbloqueio da sua conta."

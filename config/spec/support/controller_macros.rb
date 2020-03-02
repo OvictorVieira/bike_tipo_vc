@@ -5,6 +5,8 @@ module ControllerMacros
       user = FactoryBot.create(:user, email: 'leonardo@gmail.com')
       
       sign_in user
+
+      user
     end
   end
 end

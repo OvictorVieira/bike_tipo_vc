@@ -1,5 +1,7 @@
 class User < ApplicationRecord
 
+  acts_as_token_authenticatable
+
   validates_presence_of :name
 
   has_and_belongs_to_many :bikes, through: :trips

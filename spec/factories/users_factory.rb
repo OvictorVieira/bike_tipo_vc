@@ -4,5 +4,6 @@ FactoryBot.define do
     email {}
     password { 'password' }
     password_confirmation { 'password' }
+    authentication_token { Devise.friendly_token }
   end
 end

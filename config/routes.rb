@@ -17,6 +17,9 @@ Rails.application.routes.draw do
 
       resources :stations, only: [:index]
       resources :bikes, only: [:index]
+
+      post 'login', to: 'users#login', as: :login
+      post 'logout', to: 'users#logout', as: :logout
     end
   end
 end
