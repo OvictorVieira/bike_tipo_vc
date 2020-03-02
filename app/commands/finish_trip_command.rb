@@ -20,15 +20,15 @@ class FinishTripCommand
   private
 
   def set_traveled_distance(traveled_distance)
-    @trip_repository.update(traveled_distance: traveled_distance)
+    @trip_repository.update(@trip, traveled_distance: traveled_distance)
   end
 
   def set_destination_station
-    @trip_repository.update(destination_station: @destination_station.id)
+    @trip_repository.update(@trip, destination_station: @destination_station.id)
   end
 
   def set_finished_at
-    @trip_repository.update(finished_at: Time.now)
+    @trip_repository.update(@trip, finished_at: Time.now)
   end
 
   def notify_subscribers

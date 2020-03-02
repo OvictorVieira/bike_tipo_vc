@@ -8,6 +8,7 @@ class CreateTripCommand
     @trip_repository.create!(bike_id: bike_id,
                              user_id: user_id,
                              origin_station: origin_station,
-                             started_at: Time.now)
+                             started_at: Time.now,
+                             notification_delivered: false)
   end
 end

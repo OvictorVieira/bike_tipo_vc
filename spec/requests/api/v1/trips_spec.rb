@@ -346,6 +346,8 @@ RSpec.describe 'Api::V1::Trips', type: :request do
 
         expect(response).to have_http_status(:ok)
 
+        trip.reload
+
         expect(response_body['user_id']).to eql trip.user_id
         expect(response_body['bike_id']).to eql trip.bike_id
         expect(response_body['started_at']).to eql date_to_y_m_d_h_m_s(trip.started_at)
