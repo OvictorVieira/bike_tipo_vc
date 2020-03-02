@@ -1,4 +1,4 @@
-class Api::V1::StationsController < ApplicationController
+class Api::V1::StationsController < Api::V1::ApplicationController
 
   def index
     stations = StationRepository.all

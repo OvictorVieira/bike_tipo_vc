@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Trip, type: :model do
   context 'validations tests' do
-    let(:user) { create(:user) }
+    let(:user) { create(:user, email: 'marcio@gmail.com') }
     let(:bike) { create(:bike) }
     let(:station_sao_paulo) { create(:station) }
     let(:station_da_luz) do
@@ -66,7 +66,7 @@ RSpec.describe Trip, type: :model do
   end
 
   context 'test relationship of stations' do
-    let(:user) { create(:user) }
+    let(:user) { create(:user, email: 'marcela@gmail.com') }
     let(:bike) { create(:bike) }
     let(:station_sao_paulo) { create(:station) }
     let(:station_da_luz) do

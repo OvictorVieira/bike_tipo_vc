@@ -16,10 +16,14 @@ RSpec.describe 'Api::V1::Trips', type: :request do
       CreateTripMocks.create_complete_trip_mocks
     end
 
+    let(:user) { User.first }
+
     context 'when trip list returns successfully' do
 
       it 'returns a list of trips' do
-        get api_v1_trips_path, headers: { 'ACCEPT': 'application/json'}
+        get api_v1_trips_path, headers: { 'ACCEPT': 'application/json',
+                                          'X-User-Email': user.email,
+                                          'X-User-Token': user.authentication_token }
 
         trips_created_mock = JSONHelper.json_loader('spec/requests/mocks/trips_created.json')
         parsed_trips_created_mock = JSONHelper.json_parser(trips_created_mock)
@@ -42,12 +46,16 @@ RSpec.describe 'Api::V1::Trips', type: :request do
       CreateTripMocks.create_complete_trip_mocks
     end
 
+    let(:user) { User.first }
+
     context 'when record is found' do
 
       it 'return a trip' do
         trip = Trip.all[rand(0..10)]
 
-        get api_v1_trip_path(trip.id), headers: { 'ACCEPT': 'application/json'}
+        get api_v1_trip_path(trip.id), headers: { 'ACCEPT': 'application/json',
+                                                  'X-User-Email': user.email,
+                                                  'X-User-Token': user.authentication_token }
 
         response_body = JSONHelper.json_parser(response.body)
 
@@ -67,7 +75,9 @@ RSpec.describe 'Api::V1::Trips', type: :request do
     context 'when record is not found' do
 
       it 'return not_found' do
-        get api_v1_trip_path(-1), headers: { 'ACCEPT': 'application/json'}
+        get api_v1_trip_path(-1), headers: { 'ACCEPT': 'application/json',
+                                             'X-User-Email': user.email,
+                                             'X-User-Token': user.authentication_token }
 
         response_body = JSONHelper.json_parser(response.body)
 
@@ -87,6 +97,8 @@ RSpec.describe 'Api::V1::Trips', type: :request do
       CreateTripMocks.create_bike_mocks
     end
 
+    let(:user) { User.first }
+
     context 'when record is created' do
 
       it 'return a created trip' do
@@ -101,7 +113,9 @@ RSpec.describe 'Api::V1::Trips', type: :request do
         }
 
         post '/api/v1/trips',
-             headers: { 'ACCEPT': 'application/json'},
+             headers: { 'ACCEPT': 'application/json',
+                        'X-User-Email': user.email,
+                        'X-User-Token': user.authentication_token },
              params: valid_params
 
         response_body = JSONHelper.json_parser(response.body)
@@ -125,7 +139,9 @@ RSpec.describe 'Api::V1::Trips', type: :request do
         }
 
         post '/api/v1/trips',
-             headers: { 'ACCEPT': 'application/json'},
+             headers: { 'ACCEPT': 'application/json',
+                        'X-User-Email': user.email,
+                        'X-User-Token': user.authentication_token },
              params: valid_params
 
         response_body = JSONHelper.json_parser(response.body)
@@ -154,7 +170,9 @@ RSpec.describe 'Api::V1::Trips', type: :request do
         }
 
         post '/api/v1/trips',
-             headers: { 'ACCEPT': 'application/json'},
+             headers: { 'ACCEPT': 'application/json',
+                        'X-User-Email': user.email,
+                        'X-User-Token': user.authentication_token },
              params: valid_params
 
         response_body = JSONHelper.json_parser(response.body)
@@ -175,7 +193,9 @@ RSpec.describe 'Api::V1::Trips', type: :request do
         }
 
         post '/api/v1/trips',
-             headers: { 'ACCEPT': 'application/json'},
+             headers: { 'ACCEPT': 'application/json',
+                        'X-User-Email': user.email,
+                        'X-User-Token': user.authentication_token },
              params: valid_params
 
         response_body = JSONHelper.json_parser(response.body)
@@ -196,7 +216,9 @@ RSpec.describe 'Api::V1::Trips', type: :request do
         }
 
         post '/api/v1/trips',
-             headers: { 'ACCEPT': 'application/json'},
+             headers: { 'ACCEPT': 'application/json',
+                        'X-User-Email': user.email,
+                        'X-User-Token': user.authentication_token },
              params: valid_params
 
         response_body = JSONHelper.json_parser(response.body)
@@ -223,7 +245,9 @@ RSpec.describe 'Api::V1::Trips', type: :request do
         }
 
         post '/api/v1/trips',
-             headers: { 'ACCEPT': 'application/json'},
+             headers: { 'ACCEPT': 'application/json',
+                        'X-User-Email': user.email,
+                        'X-User-Token': user.authentication_token },
              params: valid_params
 
         response_body = JSONHelper.json_parser(response.body)
@@ -250,7 +274,9 @@ RSpec.describe 'Api::V1::Trips', type: :request do
         }
 
         post '/api/v1/trips',
-             headers: { 'ACCEPT': 'application/json'},
+             headers: { 'ACCEPT': 'application/json',
+                        'X-User-Email': user.email,
+                        'X-User-Token': user.authentication_token },
              params: valid_params
 
         response_body = JSONHelper.json_parser(response.body)
@@ -273,7 +299,9 @@ RSpec.describe 'Api::V1::Trips', type: :request do
         }
 
         post '/api/v1/trips',
-             headers: { 'ACCEPT': 'application/json'},
+             headers: { 'ACCEPT': 'application/json',
+                        'X-User-Email': user.email,
+                        'X-User-Token': user.authentication_token },
              params: valid_params
 
         response_body = JSONHelper.json_parser(response.body)
@@ -294,6 +322,8 @@ RSpec.describe 'Api::V1::Trips', type: :request do
       CreateTripMocks.create_trip_in_progress
     end
 
+    let(:user) { User.first }
+
     context 'when finish trip' do
 
       it 'returns a successfully completed trip' do
@@ -307,7 +337,9 @@ RSpec.describe 'Api::V1::Trips', type: :request do
 
         trip = use_third_trip_id_created.call
 
-        put api_v1_finish_path(trip.id), params: valid_params
+        put api_v1_finish_path(trip.id), headers: { 'X-User-Email': user.email,
+                                                    'X-User-Token': user.authentication_token },
+                                         params: valid_params
 
         response_body = JSONHelper.json_parser(response.body)
         completed_trip_notifier_jobs = CompletedTripNotifierWorker.jobs
@@ -339,7 +371,9 @@ RSpec.describe 'Api::V1::Trips', type: :request do
           destination_station: use_fifth_station_id_created.call
         }
 
-        put api_v1_finish_path(-1), params: valid_params
+        put api_v1_finish_path(-1), headers: { 'X-User-Email': user.email,
+                                               'X-User-Token': user.authentication_token },
+                                    params: valid_params
 
         response_body = JSONHelper.json_parser(response.body)
 
@@ -358,7 +392,9 @@ RSpec.describe 'Api::V1::Trips', type: :request do
           destination_station: trip.origin_station
         }
 
-        put api_v1_finish_path(trip.id), params: valid_params
+        put api_v1_finish_path(trip.id), headers: { 'X-User-Email': user.email,
+                                                    'X-User-Token': user.authentication_token },
+                                         params: valid_params
 
         response_body = JSONHelper.json_parser(response.body)
 
