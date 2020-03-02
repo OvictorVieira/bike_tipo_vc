@@ -1,24 +1,38 @@
-# This is a sample build configuration for Ruby.
-# Check our guides at https://confluence.atlassian.com/x/8r-5Mw for more examples.
-# Only use spaces to indent your .yml configuration.
-# -----
-# You can specify a custom docker image from Docker Hub as your build environment.
-image: ruby:2.6.3
+image: ruby:2.6.0
+
+clone:
+  depth: full
 
 pipelines:
   default:
     - step:
-        caches:
-          - bundler
+       name: Test Rspec
+       caches:
+        - bundler
+       script:
+        - apt-get update && apt-get install -y nodejs sqlite3
+        - gem install bundler -v 1.17.3
+        - bundle install
+        - RAILS_ENV=test bundle exec rails db:migrate
+        - bundle exec rspec
+       artifacts:
+        - coverage/**
+    - parallel:
+      - step:
+          name: Ruby-Critic
+          script:
+          - apt-get update && apt-get install -y nodejs sqlite3
+          - gem install rubycritic
+          - rubycritic --mode-ci --minimum-score 90
+          artifacts:
+          - tmp/rubycritic/**
+
+    - step: 
+        name: Deploy
+        deployment: production
         script:
-          - pipe: atlassian/heroku-deploy:1.1.1
-            variables:
-              HEROKU_API_KEY: $HEROKU_API_KEY
-              HEROKU_APP_NAME: $HEROKU_APP_NAME
-              WAIT: 'true' # wait for build completion and exit the pipescript:                                           
-          - bundle install
+          - git push https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_APP_NAME.git HEAD:master
 
 definitions:
   caches:
     bundler: ./vendor
-    
