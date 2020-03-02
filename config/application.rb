@@ -14,5 +14,7 @@ module BikeTipoVc
     config.app.postgres = OpenStruct.new
     config.app.postgres.user = Rails.application.credentials[:postgres][Rails.env.to_sym][:user]
     config.app.postgres.password = Rails.application.credentials[:postgres][Rails.env.to_sym][:password]
+    config.app.postgres.database = Rails.application.credentials[:postgres][Rails.env.to_sym][:database]
+    config.app.postgres.host = Rails.application.credentials[:postgres][Rails.env.to_sym][:host]
   end
 end

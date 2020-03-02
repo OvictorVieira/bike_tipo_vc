@@ -51,8 +51,10 @@ services:
     stdin_open: true
     build: ./
     container_name: bike_tipo_vc
+    env_file:
+      - .env
     environment:
-      RAILS_MASTER_KEY: 8304bdfef7d8a18f370ae1e8808be678
+      RAILS_MASTER_KEY: ${RAILS_MASTER_KEY}
     privileged: true
     volumes:
       - ../:/var/www/html/bike_tipo_vc
