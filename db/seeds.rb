@@ -6,17 +6,18 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-users = [
-  {name: 'Victor', password: 'UserPass', email: 'victor@gmail.com'},
-  {name: 'Administrador', password: 'AdminPass', email: 'admin@gmail.com'},
-]
+user = User.new
+user.name = 'Victor'
+user.email = 'victor@gmail.com'
+user.password = Rails.application.credentials[:seeds][:user][:password]
+user.password_confirmation = Rails.application.credentials[:seeds][:user][:password]
 
-users.each do |u|
-  user = User.new
-  user.name = u[:name]
-  user.email = u[:email]
-  user.password = u[:password]
-  user.password_confirmation = u[:password]
+user.save!
 
-  user.save!
-end
+admin = Admin.new
+
+admin.email = 'admin@admin.com'
+admin.password = Rails.application.credentials[:seeds][:admin][:password]
+admin.password_confirmation = Rails.application.credentials[:seeds][:admin][:password]
+
+admin.save!
