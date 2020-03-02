@@ -12,8 +12,8 @@ class Core::Communicator
     @end_point = end_point
   end
 
-  def post(body)
-    response = HTTParty.post(mount_end_point, body: body.to_json, headers: mount_headers)
+  def post(body, headers)
+    response = HTTParty.post(mount_end_point, body: body.to_json, headers: headers)
 
     response_analyser(response)
   end
@@ -24,17 +24,11 @@ class Core::Communicator
     @url_base + @end_point
   end
 
-  def mount_headers(args = {})
-    {
-      'content-type': CONTENT_TYPE_JSON,
-    }.merge!(args)
-  end
-
   def response_analyser(response)
     error_codes = Core::ResponseStatuses::ERROR_CODES.first
 
     return request_failed(status_code: error_codes[response.code]) if error_codes.include? response.code
 
-    request_success(response)
+    request_success
   end
 end

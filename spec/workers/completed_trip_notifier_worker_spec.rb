@@ -15,11 +15,11 @@ RSpec.describe CompletedTripNotifierWorker, type: :request do
       CreateTripMocks.create_trip_in_progress
     end
 
-    xcontext 'when finish trip' do
+    let(:user) { User.first }
+
+    context 'when finish trip' do
 
       it 'returns success when notifying big data API' do
-
-        # TODO Necessário avaliar o header da request
 
         use_fourth_trip_id_created = Trip.all[4]
         use_seventh_station_id_created = Station.all[7]
@@ -28,7 +28,9 @@ RSpec.describe CompletedTripNotifierWorker, type: :request do
           destination_station: use_seventh_station_id_created.id
         }
 
-        put api_v1_finish_path(use_fourth_trip_id_created.id), params: valid_params
+        put api_v1_finish_path(use_fourth_trip_id_created.id), headers: { 'X-User-Email': user.email,
+                                                                          'X-User-Token': user.authentication_token },
+                                                               params: valid_params
 
         expect(response).to have_http_status(:ok)
 
@@ -37,7 +39,10 @@ RSpec.describe CompletedTripNotifierWorker, type: :request do
         completed_trip_notifier_jobs.each do |job|
           completed_trip_notifier = job['class'].constantize
 
-          completed_trip_notifier.new.perform(job['args'].first)
+          VCR.use_cassette 'worker/completed_trip_notifier_worker_success' do
+
+            completed_trip_notifier.new.perform(job['args'].first)
+          end
         end
       end
 
@@ -50,7 +55,9 @@ RSpec.describe CompletedTripNotifierWorker, type: :request do
           destination_station: use_seventh_station_id_created.id
         }
 
-        put api_v1_finish_path(use_fourth_trip_id_created.id), params: valid_params
+        put api_v1_finish_path(use_fourth_trip_id_created.id), headers: { 'X-User-Email': user.email,
+                                                                          'X-User-Token': user.authentication_token },
+                                                               params: valid_params
 
         expect(response).to have_http_status(:ok)
 
@@ -61,8 +68,10 @@ RSpec.describe CompletedTripNotifierWorker, type: :request do
 
           expect {
 
-            completed_trip_notifier.new.perform(job['args'].first)
+            VCR.use_cassette 'worker/completed_trip_notifier_worker_unauthorized' do
 
+              completed_trip_notifier.new.perform(job['args'].first)
+            end
           }.to raise_error BigData::Errors::UnauthorizedError
         end
       end

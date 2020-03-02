@@ -40,4 +40,6 @@ group :test do
   gem 'webdrivers'
   gem 'simplecov', require: false
   gem 'faker'
+  gem 'webmock'
+  gem 'vcr'
 end
