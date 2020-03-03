@@ -43,4 +43,5 @@ group :test do
   gem 'faker'
   gem 'webmock'
   gem 'vcr'
+  gem 'sqlite3', '~> 1.3', '>= 1.3.11'
 end
