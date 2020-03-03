@@ -19,6 +19,7 @@
 /config/.DS_Store
 
 docker/.env
+bike_tipo_vc_test
 
 /Gemfile.lock
 /dump_postgres

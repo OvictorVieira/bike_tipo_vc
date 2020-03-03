@@ -1,0 +1,45 @@
+image: ruby:2.6.0
+
+clone:
+  depth: full
+
+pipelines:
+  default:
+    - step:
+       name: Test Rspec
+       caches:
+        - bundler
+       script:
+        - apt-get update && apt-get install -y nodejs sqlite3
+        - gem install bundler -v 1.17.3
+        - bundle install
+        - RAILS_ENV=test bundle exec rails db:migrate
+        - bundle exec rspec
+       artifacts:
+        - coverage/**
+    - parallel:
+      - step:
+          name: Ruby-Critic
+          script:
+          - apt-get update && apt-get install -y nodejs sqlite3
+          - gem install rubycritic
+          - rubycritic --mode-ci --minimum-score 90
+          artifacts:
+          - tmp/rubycritic/**
+
+    - step: 
+        name: Deploy
+        deployment: production
+        script:
+          - git push https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_APP_NAME.git HEAD:master
+
+definitions:
+  caches:
+    bundler: ./vendor
+  services:
+    postgres:
+      image: postgres
+      environment:
+        POSTGRES_USER: test_user
+        POSTGRES_PASSWORD: test_user_password
+        POSTGRES_DB: bike_tipo_vc_test
