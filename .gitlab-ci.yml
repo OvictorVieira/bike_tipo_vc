@@ -36,7 +36,6 @@ Enviromnent_Production:
   when: manual
   only:
     - tags
-    - branches
   allow_failure: true
   script:
     - dpl --provider=heroku --app=springfield-bike-tipo-vc --api-key=$HEROKU_PRODUCTION_API_KEY
