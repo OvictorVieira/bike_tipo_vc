@@ -1,8 +1,4 @@
-url_redis = if Rails.env.development? || Rails.env.test?
-               'redis'
-             else
-               ''
-             end
+url_redis = Rails.application.config.app.redis.host
 
 redis_conn = proc {
   Redis.new(host: url_redis)
