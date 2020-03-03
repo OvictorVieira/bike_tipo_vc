@@ -11,9 +11,8 @@ development:
   database: bike_tipo_vc_development
 
 test:
-  adapter: sqlite3
-  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-  timeout: 5000
+  <<: *common
+  host: postgres_db
   database: bike_tipo_vc_test
 
 production:
