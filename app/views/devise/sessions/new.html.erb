@@ -1,26 +1,48 @@
-<h2>Log in</h2>
+<div class="limiter">
 
-<%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
-  </div>
+  <div class="container-login100">
 
-  <div class="field">
-    <%= f.label :password %><br />
-    <%= f.password_field :password, autocomplete: "current-password" %>
-  </div>
+    <div class="wrap-login100 p-t-85 p-b-20">
 
-  <% if devise_mapping.rememberable? %>
-    <div class="field">
-      <%= f.check_box :remember_me %>
-      <%= f.label :remember_me %>
+      <%= form_for(resource, as: resource_name,
+                             url: session_path(resource_name),
+                             html: { class: 'login100-form validate-form' }) do |f| %>
+
+          <span class="login100-form-title p-b-70">
+              Bem vindo
+          </span>
+
+          <span class="login100-form-avatar">
+            <%= image_tag('bike_tipo_vc_logo.png') %>
+          </span>
+
+          <div class="wrap-input100 validate-input m-t-85 m-b-35" data-validate = "Entre com o e-mail">
+            <%= f.email_field :email, autofocus: true, autocomplete: "email", name: 'E-mail', class: 'input100' %>
+            <span class="focus-input100" data-placeholder="Username"></span>
+          </div>
+
+          <div class="wrap-input100 validate-input m-b-50" data-validate="Enter password">
+            <%= f.password_field :password, autocomplete: "current-password", name: 'Senha', class: 'input100' %>
+            <span class="focus-input100" data-placeholder="Password"></span>
+          </div>
+
+          <% if devise_mapping.rememberable? %>
+            <div class="field">
+              <%= f.check_box :remember_me %>
+              <%= f.label :remember_me %>
+            </div>
+          <% end %>
+
+          <div class="container-login100-form-btn">
+            <%= f.submit "Login", class: 'login100-form-btn' %>
+          </div>
+
+        <div id="dropDownSelect1"></div>
+
+      <% end %>
+
     </div>
-  <% end %>
 
-  <div class="actions">
-    <%= f.submit "Log in" %>
   </div>
-<% end %>
 
-<%= render "devise/shared/links" %>
+</div>
