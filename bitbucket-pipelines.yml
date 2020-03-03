@@ -36,3 +36,10 @@ pipelines:
 definitions:
   caches:
     bundler: ./vendor
+  services:
+    postgres:
+      image: postgres
+      environment:
+        POSTGRES_USER: biker
+        POSTGRES_PASSWORD: $POSTGRES_PASSWORD
+        POSTGRES_DB: bike_tipo_vc_test
