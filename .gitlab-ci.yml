@@ -20,14 +20,34 @@ before_script:
   - gem install dpl
 
 stages:
-  - production
-  - test
+  - Enviromnent_Test
+  - Enviromnent_Production
 
-deploy-production:
-  stage: production
-  environment: production
+Enviromnent_Test:
+  stage: Test
+  environment: test
+  tags:
+    - deployment
+  only:
+    - tags
+    - branches
   when: manual
-  allow_failure: true
+  allow_failure: false
+  script:
+    - bundle exec rails db:create
+    - bundle exec rails db:migrate RAILS_ENV=test
+    - bundle exec rspec
+
+Enviromnent_Production:
+  stage: Production
+  environment: production
+  when: on_success
+  tags:
+    - deployment
+  only:
+    - tags
+    - branches
+  allow_failure: false
   script:
     - yarn install
     - bundle install
