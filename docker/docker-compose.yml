@@ -4,9 +4,11 @@ services:
   postgres:
     image: postgres
     container_name: postgres_db
+    env_file:
+      - .env
     environment:
       POSTGRES_USER: biker
-      POSTGRES_PASSWORD: BikeTipoVc2020!
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     ports:
       - 15432:5432
     volumes:
@@ -19,7 +21,7 @@ services:
     container_name: pgadmin
     environment:
       PGADMIN_DEFAULT_EMAIL: biker@bike_tipo_vc.com
-      PGADMIN_DEFAULT_PASSWORD: BikeTipoVc2020!
+      PGADMIN_DEFAULT_PASSWORD: ${POSTGRES_PASSWORD}
     ports:
       - 16543:80
     depends_on:
