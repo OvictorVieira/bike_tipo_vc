@@ -41,5 +41,5 @@ definitions:
       image: postgres
       environment:
         POSTGRES_USER: biker
-        POSTGRES_PASSWORD: BikeTipoVc2020!
+        POSTGRES_PASSWORD: $POSTGRES_PASSWORD
         POSTGRES_DB: bike_tipo_vc_test

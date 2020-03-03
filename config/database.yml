@@ -12,7 +12,7 @@ development:
 
 test:
   <<: *common
-  host: postgres_db
+  host: <%= ENV['POSTGRES_HOST'] %>
   database: bike_tipo_vc_test
 
 production:
