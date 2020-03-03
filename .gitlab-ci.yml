@@ -1,54 +1,43 @@
 default:
-  image: ruby:2.6.3
+  image: ruby:2.6.0
 
 services:
   - postgres:12.2-alpine
 
 variables:
   POSTGRES_DB: bike_tipo_vc_test
-  POSTGRES_USER: runner
-  POSTGRES_PASSWORD: ''
+  POSTGRES_USER: $POSTGRES_USER
+  POSTGRES_PASSWORD: $POSTGRES_PASS
   POSTGRES_HOST_AUTH_METHOD: trust
 
 before_script:
-  - echo "deb http://toolbelt.heroku.com/ubuntu ./" > /etc/apt/sources.list.d/heroku.list
-  - wget -O- https://toolbelt.heroku.com/apt/release.key | apt-key add -
-  - curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
-  - echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
-  - apt-get update
-  - apt-get install -y heroku-toolbelt yarn
+  - apt-get update -qy
+  - apt-get install -y ruby-dev
   - gem install dpl
 
 stages:
-  - Enviromnent_Test
-  - Enviromnent_Production
+  - Test
+  - Production
 
 Enviromnent_Test:
   stage: Test
   environment: test
-  tags:
-    - deployment
   only:
     - tags
     - branches
   when: manual
-  allow_failure: false
+  allow_failure: true
   script:
     - bundle exec rails db:create
     - bundle exec rails db:migrate RAILS_ENV=test
     - bundle exec rspec
-
 Enviromnent_Production:
   stage: Production
   environment: production
-  when: on_success
-  tags:
-    - deployment
+  when: manual
   only:
     - tags
     - branches
-  allow_failure: false
+  allow_failure: true
   script:
-    - yarn install
-    - bundle install
     - dpl --provider=heroku --app=springfield-bike-tipo-vc --api-key=$HEROKU_PRODUCTION_API_KEY
