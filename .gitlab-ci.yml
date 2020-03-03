@@ -28,15 +28,12 @@ Enviromnent_Test:
   when: manual
   allow_failure: true
   script:
-    - bundle install
     - bundle exec rails db:migrate RAILS_ENV=test
     - bundle exec rspec
-
 Enviromnent_Production:
   stage: Production
   environment: production
   when: manual
-  # when: on_success
   only:
     - tags
     - branches
