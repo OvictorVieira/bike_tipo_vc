@@ -54,7 +54,7 @@ services:
   application:
     tty: true
     stdin_open: true
-    build: docker
+    build: ./
     container_name: bike_tipo_vc
     env_file:
       - .env
@@ -62,7 +62,7 @@ services:
       RAILS_MASTER_KEY: ${RAILS_MASTER_KEY}
     privileged: true
     volumes:
-      - ./:/var/www/html/bike_tipo_vc
+      - ../:/var/www/html/bike_tipo_vc
     ports:
       - 3000:3000
       - 80:80
