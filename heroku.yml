@@ -1,0 +1,7 @@
+build:
+  docker:
+    web: docker/Dockerfile
+    RAILS_ENV: production
+run:
+  web: rails s -p $PORT
+  image: web
