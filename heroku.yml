@@ -6,7 +6,6 @@ build:
   docker:
     web: docker/Dockerfile
 
-
 run:
   web: bundle exec rails s -p $PORT
   worker:
