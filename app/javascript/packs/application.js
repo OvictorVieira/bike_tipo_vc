@@ -8,10 +8,10 @@ require('turbolinks').start();
 require('@rails/activestorage').start();
 require('channels');
 
-require('../core/jquery/jquery-3.2.1.min.js');
+//= require jquery
+//= require jquery_ujs
+
 require('../core/animsition/js/animsition.min.js');
-require('../core/bootstrap/js/popper.js');
-require('../core/bootstrap/js/bootstrap.min.js');
 require('../core/select2/select2.min.js');
 require('../core/daterangepicker/moment.min.js');
 require('../core/daterangepicker/daterangepicker');
