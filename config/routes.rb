@@ -4,11 +4,9 @@ Rails.application.routes.draw do
 
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
 
-  devise_for :users
-
-  devise_scope :user do
-    authenticated :user do
-      root 'trips#index', as: :authenticated_root
+  devise_scope :admins do
+    authenticated :admins do
+      root 'admins#index', as: :authenticated_root
     end
 
     unauthenticated do
