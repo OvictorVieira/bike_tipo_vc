@@ -30,7 +30,7 @@ Enviromnent_Test:
     - tags
     - branches
   when: manual
-  allow_failure: false
+  allow_failure: true
   script:
     - yarn install
     - bundle install
@@ -42,7 +42,7 @@ Enviromnent_Production:
   when: manual
   only:
     - tags
-  allow_failure: false
+  allow_failure: true
   script:
     - yarn install
     - bundle install
