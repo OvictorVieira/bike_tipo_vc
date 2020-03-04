@@ -1,7 +1,9 @@
 build:
   docker:
     web: docker/Dockerfile
-    RAILS_ENV: production
 run:
-  web: rails s -p $PORT
-  image: web
+  web: bundle exec rails s -p $PORT
+  worker:
+    command:
+      - bundle exec sidekiq -c 2
+    image: web
