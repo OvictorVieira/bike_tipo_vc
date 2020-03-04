@@ -44,7 +44,5 @@ Enviromnent_Production:
     - tags
   allow_failure: true
   script:
-    - yarn install
-    - bundle install
     - bundle exec rails db:migrate RAILS_ENV=production
     - dpl --provider=heroku --app=springfield-bike-tipo-vc --api-key=$HEROKU_PRODUCTION_API_KEY

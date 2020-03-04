@@ -96,4 +96,6 @@ WORKDIR /var/www/html/bike_tipo_vc
 
 COPY . /var/www/html/bike_tipo_vc
 
+RUN bundle install
+
 CMD [ "irb" ]
