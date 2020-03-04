@@ -1,1 +1,2 @@
-worker: bundle exec sidekiq -c 2
+web:bundle exec puma
+worker:bundle exec sidekiq -c 2
