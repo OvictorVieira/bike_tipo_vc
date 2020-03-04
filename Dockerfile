@@ -92,10 +92,11 @@ USER docker
 
 RUN echo 'export PS1="\[\\033[38m\]\u\[\\033[32m\] \w\[\\033[31m\]\`git branch 2>/dev/null | grep \"^\*\" | sed -r \"s/\*\ (.*)/ \(\\1\)/\"\`\[\\033[37m\]$\[\\033[00m\] "' >> /home/docker/.bashrc
 
-WORKDIR /var/www/html/bike_tipo_vc
-
 RUN bundle install
 
 COPY . /var/www/html/bike_tipo_vc
 
 CMD [ "irb" ]
+
+WORKDIR /var/www/html/bike_tipo_vc
+
