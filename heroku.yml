@@ -2,4 +2,4 @@ build:
   docker:
     web: docker/Dockerfile
 run:
-  web: bundle exec puma -C config/puma.rb
+  web: rails s -p $PORT
