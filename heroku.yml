@@ -4,7 +4,7 @@ setup:
     - plan: redistogo
 build:
   docker:
-    web: docker/Dockerfile
+    web: Dockerfile
 
 run:
   web: bundle exec rails s -p $PORT
