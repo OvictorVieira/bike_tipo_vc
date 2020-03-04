@@ -1,5 +1,0 @@
-build:
-  docker:
-    web: docker/Dockerfile
-run:
-  web: rails s -p $PORT
