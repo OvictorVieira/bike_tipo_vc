@@ -29,7 +29,7 @@ a criação de um **Server** no PgAdmin, para isso siga os comandos abaixo:
 
 **PS.:** *Todas as senhas e usuários são para uso Local/Desenvolvimento*
 
-## Arquitetura do Proejto
+## Arquitetura do Projeto
 
 #### Tecnologias utilizadas
 
