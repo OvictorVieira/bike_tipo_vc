@@ -1,5 +1,25 @@
 # BIKE TIPO VC
 
+# Hospedagem
+
+O aplicativo está hospedado no Heroku, você consegue acessa-lo através clicando aqui [springfield-bike-tipo-vc.herokuapp.com/](https://springfield-bike-tipo-vc.herokuapp.com/).
+
+# Sidekiq
+
+Para realizar o monitoramento dos Workers, basta acessar a rota do Sidekiq, clicando aqui [springfield-bike-tipo-vc.herokuapp.com/sidekiq](https://springfield-bike-tipo-vc.herokuapp.com/sidekiq), 
+O Usuário e senha você pode encontrar seguindo os passos abaixo:
+
+**User**: `admin`
+**Senha**: `Rails.application.config.app.sidekiq.password` (execute no console do rails `rails c`)
+
+# Admin
+
+Temos uma Dashboard Admin para gerenciamento do App, acesse a rota clicando aqui: [springfield-bike-tipo-vc.herokuapp.com/admin](springfield-bike-tipo-vc.herokuapp.com/admin).
+O Usuário e senha você pode encontrar seguindo os passos abaixo:
+
+**Email**: `admin@admin.com`
+**Senha**: `Rails.application.credentials[:seeds][:admin][:password]` (execute no console do rails `rails c`)
+
 #### Preparando o Ambiente
 
 Para instalar o Ambiente de desenvolvimento, acesse o [Readme do Docker](docker/README.md) e siga as instruções.
@@ -122,6 +142,14 @@ Na arquitetura do código foi usado a seguinte estrutura:
 
 Foi adotado o uso de *Docker* e *Docker-compose* no ambiente de desenvolvimento pois agiliza o processo de desenvolvimento
 e mantém a maquina do desenvolvedor integra.
+
+#### Notificações
+
+Foi adotado modelo de publish e subscriber para realizar as notificações, onde foi feito o empilhamento de um Worker no sidekiq
+para que não quebrasse o fluxo da finalização da viagem, assim notificando a API em background em um outro momento.
+
+Foi adotado também um modelo de notificação com o `perform_in` randomico, assim não sobrecarregamos o banco caso sejam gerados
+varias notificações no decorrer do tempo.
 
 #### Gems usadas no projeto
 
