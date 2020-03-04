@@ -94,8 +94,8 @@ RUN echo 'export PS1="\[\\033[38m\]\u\[\\033[32m\] \w\[\\033[31m\]\`git branch 2
 
 WORKDIR /var/www/html/bike_tipo_vc
 
-COPY . /var/www/html/bike_tipo_vc
-
 RUN bundle install
+
+COPY . /var/www/html/bike_tipo_vc
 
 CMD [ "irb" ]
