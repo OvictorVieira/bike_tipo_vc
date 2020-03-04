@@ -7,12 +7,12 @@ common: &common
 
 development:
   <<: *common
-  host: postgres_db
+  host: <%= ENV['POSTGRES_HOST'] || Rails.application.config.app.postgres.host %>
   database: bike_tipo_vc_development
 
 test:
   <<: *common
-  host: <%= ENV['POSTGRES_HOST'] %>
+  host: <%= ENV['POSTGRES_HOST'] || Rails.application.config.app.postgres.host %>
   database: bike_tipo_vc_test
 
 production:
