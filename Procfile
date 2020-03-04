@@ -1,2 +1,2 @@
-web:bundle exec puma
-worker:bundle exec sidekiq -c 2
+web:rails s -p $PORT
+worker:sidekiq -c 2
