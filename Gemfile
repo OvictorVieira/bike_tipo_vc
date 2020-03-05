@@ -28,6 +28,7 @@ group :development, :test do
 
   gem "rubycritic", require: false
   gem 'factory_bot_rails'
+  gem 'pry-remote'
 end
 
 group :development do
