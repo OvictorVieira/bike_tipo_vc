@@ -3,7 +3,7 @@ require 'sidekiq/web'
 url_redis = Rails.application.config.app.redis.host
 
 redis_conn = proc {
-  Redis.new(host: url_redis)
+  Redis.new(host: url_redis, port: Rails.application.config.app.redis.port)
 }
 
 Sidekiq.configure_client do |config|

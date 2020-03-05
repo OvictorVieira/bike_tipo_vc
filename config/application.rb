@@ -15,6 +15,7 @@ module BikeTipoVc
     config.app.postgres = OpenStruct.new
     config.app.sidekiq = OpenStruct.new
     config.app.redis.host = Rails.application.credentials[:redis][Rails.env.to_sym][:host]
+    config.app.redis.port = Rails.application.credentials[:redis][Rails.env.to_sym][:port]
     config.app.postgres.host = Rails.application.credentials[:postgres][Rails.env.to_sym][:host]
     config.app.postgres.user = Rails.application.credentials[:postgres][Rails.env.to_sym][:user]
     config.app.sidekiq.user = Rails.application.credentials[:sidekiq][Rails.env.to_sym][:user]

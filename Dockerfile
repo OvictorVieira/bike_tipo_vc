@@ -12,6 +12,10 @@ ENV RUBY_MAJOR 2.7
 ENV RUBY_VERSION 2.7.0
 ENV RUBY_DOWNLOAD_SHA256 27d350a52a02b53034ca0794efe518667d558f152656c2baaf08f3d0c8b02343
 
+RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
+RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
+RUN apt-get update && apt-get install yarn
+
 # some of ruby's build scripts are written in ruby
 #   we purge system ruby later to make sure our final image uses what we just built
 RUN set -eux; \
@@ -89,3 +93,4 @@ COPY . /var/www/html/bike_tipo_vc
 WORKDIR /var/www/html/bike_tipo_vc
 
 RUN bundle install
+RUN yarn install
