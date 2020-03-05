@@ -1,80 +1,91 @@
-FROM buildpack-deps:stretch
+FROM buildpack-deps:buster
 
-MAINTAINER Victor Hugo de Souza Vieira "victor.vieira"
+MAINTAINER Victor Hugo de Souza Vieira "viih@live.fr"
 
 # skip installing gem documentation
-RUN mkdir -p /usr/local/etc \
-	&& { \
+RUN set -eux; \
+	mkdir -p /usr/local/etc; \
+	{ \
 		echo 'install: --no-document'; \
 		echo 'update: --no-document'; \
 	} >> /usr/local/etc/gemrc
 
-ENV RUBY_MAJOR 2.6-rc
-ENV RUBY_VERSION 2.6.0-rc1
-ENV RUBY_DOWNLOAD_SHA256 21d9d54c20e45ccacecf8bea4dfccd05edc52479c776381ae98ef6a7b4afa739
-ENV RUBYGEMS_VERSION 2.7.8
-ENV BUNDLER_VERSION 1.17.2
+ENV RUBY_MAJOR 2.6
+ENV RUBY_VERSION 2.6.3
+ENV RUBY_DOWNLOAD_SHA256 11a83f85c03d3f0fc9b8a9b6cad1b2674f26c5aaa43ba858d4b0fcc2b54171e1
 
 # some of ruby's build scripts are written in ruby
 #   we purge system ruby later to make sure our final image uses what we just built
-RUN set -ex \
+RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
+RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
+RUN apt-get update && apt-get install -y nodejs yarn
+
+RUN set -eux; \
 	\
-	&& buildDeps=' \
+	savedAptMark="$(apt-mark showmanual)"; \
+	apt-get update; \
+	apt-get install -y --no-install-recommends \
 		bison \
 		dpkg-dev \
 		libgdbm-dev \
 		ruby \
-	' \
-	&& apt-get update \
-	&& apt-get install --assume-yes vim \
-	&& apt-get install -y --no-install-recommends $buildDeps \
-	&& rm -rf /var/lib/apt/lists/* \
+	; \
+	rm -rf /var/lib/apt/lists/*; \
 	\
-	&& wget -O ruby.tar.xz "https://cache.ruby-lang.org/pub/ruby/${RUBY_MAJOR%-rc}/ruby-$RUBY_VERSION.tar.xz" \
-	&& echo "$RUBY_DOWNLOAD_SHA256 *ruby.tar.xz" | sha256sum -c - \
+	wget -O ruby.tar.xz "https://cache.ruby-lang.org/pub/ruby/${RUBY_MAJOR%-rc}/ruby-$RUBY_VERSION.tar.xz"; \
+	echo "$RUBY_DOWNLOAD_SHA256 *ruby.tar.xz" | sha256sum --check --strict; \
 	\
-	&& mkdir -p /usr/src/ruby \
-	&& tar -xJf ruby.tar.xz -C /usr/src/ruby --strip-components=1 \
-	&& rm ruby.tar.xz \
+	mkdir -p /usr/src/ruby; \
+	tar -xJf ruby.tar.xz -C /usr/src/ruby --strip-components=1; \
+	rm ruby.tar.xz; \
 	\
-	&& cd /usr/src/ruby \
+	cd /usr/src/ruby; \
 	\
 # hack in "ENABLE_PATH_CHECK" disabling to suppress:
 #   warning: Insecure world writable dir
-	&& { \
+	{ \
 		echo '#define ENABLE_PATH_CHECK 0'; \
 		echo; \
 		cat file.c; \
-	} > file.c.new \
-	&& mv file.c.new file.c \
+	} > file.c.new; \
+	mv file.c.new file.c; \
 	\
-	&& autoconf \
-	&& gnuArch="$(dpkg-architecture --query DEB_BUILD_GNU_TYPE)" \
-	&& ./configure \
+	autoconf; \
+	gnuArch="$(dpkg-architecture --query DEB_BUILD_GNU_TYPE)"; \
+	./configure \
 		--build="$gnuArch" \
 		--disable-install-doc \
 		--enable-shared \
-	&& make -j "$(nproc)" \
-	&& make install \
+	; \
+	make -j "$(nproc)"; \
+	make install; \
 	\
-	&& apt-get purge -y --auto-remove $buildDeps \
-	&& cd / \
-	&& rm -r /usr/src/ruby \
+	apt-mark auto '.*' > /dev/null; \
+	apt-mark manual $savedAptMark > /dev/null; \
+	find /usr/local -type f -executable -not \( -name '*tkinter*' \) -exec ldd '{}' ';' \
+		| awk '/=>/ { print $(NF-1) }' \
+		| sort -u \
+		| xargs -r dpkg-query --search \
+		| cut -d: -f1 \
+		| sort -u \
+		| xargs -r apt-mark manual \
+	; \
+	apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false; \
 	\
-	&& gem update --system "$RUBYGEMS_VERSION" \
-	&& gem install bundler --version "$BUNDLER_VERSION" --force \
-	&& rm -r /root/.gem/
-
-RUN curl -sL https://deb.nodesource.com/setup_8.x | bash -
-RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
-RUN apt-get install -y nodejs
-RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
-RUN apt-get update && apt-get install yarn
-RUN gem install rails
-RUN yarn --version
+	cd /; \
+	rm -r /usr/src/ruby; \
+# verify we have no "ruby" packages installed
+	! dpkg -l | grep -i ruby; \
+	[ "$(command -v ruby)" = '/usr/local/bin/ruby' ]; \
+# rough smoke test
+	ruby --version; \
+	gem --version; \
+	bundle --version
 
 # install things globally, for great justice
 # and don't create ".bundle" in all our apps
+RUN gem install bundle rails
+RUN apt-get update && apt-get install -y iputils-ping nano
 ENV GEM_HOME /usr/local/bundle
 ENV BUNDLE_PATH="$GEM_HOME" \
 	BUNDLE_SILENCE_ROOT_WARNING=1 \
@@ -90,5 +101,3 @@ COPY . /var/www/html/bike_tipo_vc
 WORKDIR /var/www/html/bike_tipo_vc
 
 RUN bundle install
-RUN yarn install
-RUN rails assets:precompile RAILS_ENV=production

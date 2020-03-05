@@ -1,7 +1,3 @@
-setup:
-  addons:
-    - plan: heroku-postgresql
-    - plan: redistogo
 build:
   docker:
     web: Dockerfile
@@ -10,6 +6,5 @@ run:
   web: bundle exec rails s -p $PORT
   worker:
     command:
-      - bundle install
-      - bundle exec sidekiq
-    image: webaaaa
+      - bundle exec sidekiq -c 5 -v
+    image: web
