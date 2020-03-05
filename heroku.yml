@@ -12,4 +12,4 @@ run:
     command:
       - bundle install
       - bundle exec sidekiq
-    image: web
+    image: webaaaa

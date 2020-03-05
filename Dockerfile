@@ -90,3 +90,5 @@ COPY . /var/www/html/bike_tipo_vc
 WORKDIR /var/www/html/bike_tipo_vc
 
 RUN bundle install
+RUN yarn install
+RUN rails assets:precompile RAILS_ENV=production
