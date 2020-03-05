@@ -8,7 +8,10 @@ build:
 
 run:
   web: bundle exec rails s -p $PORT
+  command:
+    - bundle install
   worker:
     command:
-      - bundle exec sidekiq -c 2
+      - bundle install
+      - bundle exec sidekiq
     image: web
