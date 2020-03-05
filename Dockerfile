@@ -86,4 +86,6 @@ RUN mkdir -p "$GEM_HOME" && chmod 777 "$GEM_HOME"
 
 COPY . /var/www/html/bike_tipo_vc
 
+WORKDIR /var/www/html/bike_tipo_vc
+
 RUN bundle install
