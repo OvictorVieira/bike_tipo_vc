@@ -8,8 +8,6 @@ build:
 
 run:
   web: bundle exec rails s -p $PORT
-  command:
-    - bundle install
   worker:
     command:
       - bundle install
