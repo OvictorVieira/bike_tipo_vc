@@ -18,6 +18,8 @@ gem 'devise'
 gem 'simple_token_authentication', '~> 1.0'
 gem 'rails_admin', '~> 2.0'
 gem 'jquery-rails'
+gem 'rack'
+gem 'redis'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
@@ -27,6 +29,7 @@ group :development, :test do
 
   gem "rubycritic", require: false
   gem 'factory_bot_rails'
+  gem 'pry-remote'
 end
 
 group :development do
