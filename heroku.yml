@@ -3,8 +3,8 @@ build:
     web: Dockerfile
 
 run:
-  web: bundle exec rails s -p $PORT
+  web: bundle exec puma -p $PORT
   worker:
     command:
-      - bundle exec sidekiq -c 5 -v
+      - bundle exec sidekiq -c 5
     image: web
