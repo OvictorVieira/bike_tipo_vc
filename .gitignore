@@ -21,7 +21,6 @@
 .env
 bike_tipo_vc_test
 
-/Gemfile.lock
 /dump_postgres
 /public/packs
 /public/packs-test
