@@ -3,9 +3,9 @@ class Api::V1::UsersController < Api::V1::ApplicationController
   skip_before_action :verify_authenticity_token, only: [:login]
 
   def login
-    @user = UserRepository.find_by_email(params['email'])
+    @user = UserRepository.find_by_email(params['user']['email'])
 
-    if @user&.valid_password?(params['password'])
+    if @user&.valid_password?(params['user']['password'])
 
       sign_in @user
 
