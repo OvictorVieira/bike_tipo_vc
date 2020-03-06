@@ -30,7 +30,7 @@ Enviromnent_Test:
     - tags
     - branches
   when: manual
-  allow_failure: false
+  allow_failure: true
   script:
     - yarn install
     - bundle install
@@ -42,7 +42,9 @@ Enviromnent_Production:
   when: on_success
   only:
     - tags
-  allow_failure: false
+    - branches
+  allow_failure: true
+  # allow_failure: false
   script:
     - bundle install
     - bundle exec rails db:migrate RAILS_ENV=production
