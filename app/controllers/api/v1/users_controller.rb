@@ -1,8 +1,6 @@
 class Api::V1::UsersController < Api::V1::ApplicationController
 
   def login
-    binding.pry
-
     @user = UserRepository.find_by_email(params[:email])
 
     if @user&.valid_password?(params[:password])
