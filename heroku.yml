@@ -1,0 +1,10 @@
+build:
+  docker:
+    web: Dockerfile
+
+run:
+  web: bundle exec puma -p $PORT
+  worker:
+    command:
+      - bundle exec sidekiq -c 5
+    image: web
