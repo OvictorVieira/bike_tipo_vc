@@ -23,9 +23,9 @@ class Api::V1::TripsController < Api::V1::ApplicationController
 
   def create
     begin
-      trip_created = CreateTripFacade.create!(params[:bike_id],
-                                              params[:user_id],
-                                              params[:origin_station])
+      trip_created = CreateTripFacade.create!(params['trip']['bike_id'],
+                                              params['trip']['user_id'],
+                                              params['trip']['origin_station'])
 
       render json: trip_created, status: :created
 
@@ -50,7 +50,7 @@ class Api::V1::TripsController < Api::V1::ApplicationController
     begin
       load_trip
 
-      finish_trip = FinishTripFacade.new(@trip.load_origin_station, params[:destination_station])
+      finish_trip = FinishTripFacade.new(@trip.load_origin_station, params['trip']['destination_station'])
 
       finish_trip.finish!(@trip)
 

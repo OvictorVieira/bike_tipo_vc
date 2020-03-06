@@ -29,7 +29,9 @@ RSpec.describe CompletedTripNotifierWorker, type: :request do
         use_seventh_station_id_created = Station.all[7]
 
         valid_params = {
-          destination_station: use_seventh_station_id_created.id
+          'trip' => {
+            destination_station: use_seventh_station_id_created.id
+          }
         }
 
         put api_v1_finish_path(use_fourth_trip_id_created.id), headers: { 'X-User-Email': user.email,
@@ -63,7 +65,9 @@ RSpec.describe CompletedTripNotifierWorker, type: :request do
         use_seventh_station_id_created = Station.all[7]
 
         valid_params = {
-          destination_station: use_seventh_station_id_created.id
+          'trip' => {
+            destination_station: use_seventh_station_id_created.id
+          }
         }
 
         put api_v1_finish_path(use_fourth_trip_id_created.id), headers: { 'X-User-Email': user.email,

@@ -10,8 +10,12 @@ RSpec.describe 'Api::V1::Stations', type: :request do
       let(:user) { FactoryBot.create(:user, name: Faker::Name.name, email: "leonardo_@gmail.com") }
 
       it 'returns success' do
-        post api_v1_login_path, headers: { 'ACCEPT': 'application/json' }, params: { 'email': user.email,
-                                                                                     'password': user.password }
+        post api_v1_login_path, headers: { 'ACCEPT': 'application/json' }, params: {
+                                                                             'user' => {
+                                                                               'email' => user.email,
+                                                                               'password' => user.password
+                                                                             }
+                                                                           }
 
         response_body = JSONHelper.json_parser(response.body)
 
@@ -24,16 +28,24 @@ RSpec.describe 'Api::V1::Stations', type: :request do
       end
 
       it 'returns unauthorized when using invalid email' do
-        post api_v1_login_path, headers: { 'ACCEPT': 'application/json' }, params: { 'email': '____@gmail.com',
-                                                                                     'password': user.password }
+        post api_v1_login_path, headers: { 'ACCEPT': 'application/json' }, params: {
+                                                                              'user' => {
+                                                                                'email' => '__@gmail.com',
+                                                                                'password' => user.password
+                                                                              }
+                                                                            }
 
         expect(response).to have_http_status(:unauthorized)
         expect(response.content_type).to eql('application/json')
       end
 
       it 'returns unauthorized when using invalid password' do
-        post api_v1_login_path, headers: { 'ACCEPT': 'application/json' }, params: { 'email': user.email,
-                                                                                     'password': '' }
+        post api_v1_login_path, headers: { 'ACCEPT': 'application/json' }, params: {
+                                                                              'user' => {
+                                                                                'email' => user.email,
+                                                                                'password' => '0000'
+                                                                              }
+                                                                            }
 
         expect(response).to have_http_status(:unauthorized)
         expect(response.content_type).to eql('application/json')
