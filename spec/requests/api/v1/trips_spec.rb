@@ -107,9 +107,11 @@ RSpec.describe 'Api::V1::Trips', type: :request do
         random_station_id = -> { Station.all[rand(0..10)].id }
 
         valid_params = {
-          user_id: random_user_id.call,
-          bike_id: random_bike_id.call,
-          origin_station: random_station_id.call
+          'trip' => {
+            user_id: random_user_id.call,
+            bike_id: random_bike_id.call,
+            origin_station: random_station_id.call
+          }
         }
 
         post '/api/v1/trips',
@@ -133,9 +135,11 @@ RSpec.describe 'Api::V1::Trips', type: :request do
         CreateBikeMaintenanceMocks.create_bike_maintenance_for_a(random_bike.id)
 
         valid_params = {
-          user_id: random_user.id,
-          bike_id: random_bike.id,
-          origin_station: random_station.id
+          'trip' => {
+            user_id: random_user.id,
+            bike_id: random_bike.id,
+            origin_station: random_station.id
+          }
         }
 
         post '/api/v1/trips',
@@ -164,9 +168,11 @@ RSpec.describe 'Api::V1::Trips', type: :request do
         random_station_id = -> { Station.all[rand(0..10)].id }
 
         valid_params = {
-          user_id: nonexistent_user_id,
-          bike_id: random_bike_id.call,
-          origin_station: random_station_id.call
+          'trip' => {
+            user_id: nonexistent_user_id,
+            bike_id: random_bike_id.call,
+            origin_station: random_station_id.call
+          }
         }
 
         post '/api/v1/trips',
@@ -187,9 +193,11 @@ RSpec.describe 'Api::V1::Trips', type: :request do
         random_station_id = -> { Station.all[rand(0..10)].id }
 
         valid_params = {
-          user_id: random_user_id.call,
-          bike_id: nonexistent_bike_id,
-          origin_station: random_station_id.call
+          'trip' => {
+            user_id: random_user_id.call,
+            bike_id: nonexistent_bike_id,
+            origin_station: random_station_id.call
+          }
         }
 
         post '/api/v1/trips',
@@ -210,9 +218,11 @@ RSpec.describe 'Api::V1::Trips', type: :request do
         nonexistent_station_id = -1
 
         valid_params = {
-          user_id: random_user_id.call,
-          bike_id: random_bike_id.call,
-          origin_station: nonexistent_station_id
+          'trip' => {
+            user_id: random_user_id.call,
+            bike_id: random_bike_id.call,
+            origin_station: nonexistent_station_id
+          }
         }
 
         post '/api/v1/trips',
@@ -239,9 +249,11 @@ RSpec.describe 'Api::V1::Trips', type: :request do
         BikeMaintenance.last.update(finished_at: nil)
 
         valid_params = {
-          user_id: random_user_id.call,
-          bike_id: bike.id,
-          origin_station: random_station_id.call
+          'trip' => {
+            user_id: random_user_id.call,
+            bike_id: bike.id,
+            origin_station: random_station_id.call
+          }
         }
 
         post '/api/v1/trips',
@@ -268,9 +280,11 @@ RSpec.describe 'Api::V1::Trips', type: :request do
                           finished_at: nil)
 
         valid_params = {
-          user_id: random_user.id,
-          bike_id: random_bike.id,
-          origin_station: origin_station.id
+          'trip' => {
+            user_id: random_user.id,
+            bike_id: random_bike.id,
+            origin_station: origin_station.id
+          }
         }
 
         post '/api/v1/trips',
@@ -293,9 +307,11 @@ RSpec.describe 'Api::V1::Trips', type: :request do
         random_bike.update(available: false)
 
         valid_params = {
-          user_id: random_user_id.call,
-          bike_id: random_bike.id,
-          origin_station: random_station_id.call
+          'trip' => {
+            user_id: random_user_id.call,
+            bike_id: random_bike.id,
+            origin_station: random_station_id.call
+          }
         }
 
         post '/api/v1/trips',
@@ -332,7 +348,9 @@ RSpec.describe 'Api::V1::Trips', type: :request do
         use_fifth_station_id_created = -> { Station.all[5].id }
 
         valid_params = {
-          destination_station: use_fifth_station_id_created.call
+          'trip' => {
+            destination_station: use_fifth_station_id_created.call
+          }
         }
 
         trip = use_third_trip_id_created.call
@@ -370,7 +388,9 @@ RSpec.describe 'Api::V1::Trips', type: :request do
         use_fifth_station_id_created = -> { Station.all[5].id }
 
         valid_params = {
-          destination_station: use_fifth_station_id_created.call
+          'trip' => {
+            destination_station: use_fifth_station_id_created.call
+          }
         }
 
         put api_v1_finish_path(-1), headers: { 'X-User-Email': user.email,
@@ -391,7 +411,9 @@ RSpec.describe 'Api::V1::Trips', type: :request do
         trip = use_third_trip_id_created.call
 
         valid_params = {
-          destination_station: trip.origin_station
+          'trip' => {
+            destination_station: trip.origin_station
+          }
         }
 
         put api_v1_finish_path(trip.id), headers: { 'X-User-Email': user.email,
