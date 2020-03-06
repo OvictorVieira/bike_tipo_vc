@@ -8,22 +8,17 @@
 /storage/*
 !/storage/.keep
 
-/public/assets
 .byebug_history
 
 /config/master.key
 
 /.idea
 /vendor
-/.DS_Store
-/config/.DS_Store
 
 .env
 bike_tipo_vc_test
 
 /dump_postgres
-/public/packs
-/public/packs-test
 /node_modules
 /yarn-error.log
 yarn-debug.log*
