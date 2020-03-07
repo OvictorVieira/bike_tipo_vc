@@ -1,5 +1,8 @@
 Rails.application.routes.draw do
 
+  require 'sidekiq/web'
+  mount Sidekiq::Web => '/sidekiq'
+
   devise_for :admins
   devise_for :users
 
@@ -8,9 +11,6 @@ Rails.application.routes.draw do
   root 'dashboard#index'
 
   resources :trips, only: [:index, :show]
-
-  require 'sidekiq/web'
-  mount Sidekiq::Web => '/sidekiq'
 
   namespace :api do
     namespace :v1 do
