@@ -8,6 +8,7 @@
 /storage/*
 !/storage/.keep
 
+/public/assets/*
 /public/assets
 .byebug_history
 
