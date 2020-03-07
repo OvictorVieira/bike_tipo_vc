@@ -39,7 +39,7 @@ Enviromnent_Test:
 Enviromnent_Production:
   stage: Production
   environment: production
-  when: on_success
+  when: manual
   only:
     - tags
     - branches
