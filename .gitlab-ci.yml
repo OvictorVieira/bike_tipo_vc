@@ -17,6 +17,7 @@ before_script:
   - echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
   - apt-get update
   - apt-get install -y heroku-toolbelt yarn
+  - bundle update --bundler
   - gem install dpl
 
 stages:
