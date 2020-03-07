@@ -15,16 +15,11 @@
 
 /.idea
 /vendor
-/.DS_Store
-/config/.DS_Store
 
 .env
 bike_tipo_vc_test
 
-/Gemfile.lock
 /dump_postgres
-/public/packs
-/public/packs-test
 /node_modules
 /yarn-error.log
 yarn-debug.log*

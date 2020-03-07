@@ -3,17 +3,18 @@
 // a relevant structure within app/javascript and only use these pack files to reference
 // that code so it'll be compiled.
 
+import '../../assets/stylesheets/application'
+
 require('@rails/ujs').start();
 require('turbolinks').start();
 require('@rails/activestorage').start();
 require('channels');
 
-//= require jquery
-//= require jquery_ujs
+import './bootstrap_custom.js'
 
-require('../core/animsition/js/animsition.min.js');
-require('../core/select2/select2.min.js');
-require('../core/daterangepicker/moment.min.js');
-require('../core/daterangepicker/daterangepicker');
-require('../core/countdowntime/countdowntime.js');
+require('animsition');
+require('select2');
+require('moment');
+require('daterangepicker');
+require('countdowntime');
 require('../core/main.js');

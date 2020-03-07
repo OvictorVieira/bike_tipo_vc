@@ -17,9 +17,11 @@ gem 'httparty'
 gem 'devise'
 gem 'simple_token_authentication', '~> 1.0'
 gem 'rails_admin', '~> 2.0'
-gem 'jquery-rails'
 gem 'rack'
 gem 'redis'
+gem 'foreman'
+gem "font-awesome-rails"
+gem 'material_icons'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]

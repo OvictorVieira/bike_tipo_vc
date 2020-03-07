@@ -10,6 +10,8 @@ module BikeTipoVc
   class Application < Rails::Application
     config.load_defaults 6.0
 
+    config.assets.initialize_on_precompile = false
+
     config.app = OpenStruct.new
     config.app.redis = OpenStruct.new
     config.app.postgres = OpenStruct.new
