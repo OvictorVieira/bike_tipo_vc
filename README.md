@@ -1,5 +1,7 @@
 # BIKE TIPO VC
 
+<img src="https://img.shields.io/static/v1?label=COVERAGE&message=100&color=green&style=for-the-badge"/> <img src="https://img.shields.io/static/v1?label=Licese&message=MIT&color=blue&style=for-the-badge"/> <img src="https://img.shields.io/static/v1?label=Ruby&message=2.6.6&color=red&style=for-the-badge&logo=RUBY"/> <img src="https://img.shields.io/static/v1?label=Ruby%20on%20Rails&message=6.0.0&color=red&style=for-the-badge&logo=Ruby"/>
+
 #### Preparando o Ambiente
 
 Para instalar o Ambiente de desenvolvimento, acesse o [Readme do Docker](docker/README.md) e siga as instruções.
@@ -141,3 +143,9 @@ e mantém a maquina do desenvolvedor integra.
 * `faker`: Utilizado para criação de dados ficticios nos Testes.
 * `webmock`: Utilizado para criar mocks de requisições nos testes.
 * `vcr`: Utilizado para criar Mocks das requisições, para não realizar as mesmas após a criação dos mocks.
+
+## Licença
+
+The [MIT License]() (MIT)
+
+Copyright :copyright: 2020 - Bike Tipo Vc
